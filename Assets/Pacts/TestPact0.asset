@@ -16,13 +16,19 @@ MonoBehaviour:
   description: TestPact0 Description
   rng: 1
   buffs:
-  - type: 3
+  - statType: 0
     minValue: 0
     maxValue: 1
   debuffs:
-  - type: 3
+  - statType: 0
     minValue: 0
     maxValue: 1
-  - type: 3
+  - statType: 0
+    minValue: 0
+    maxValue: 1
+  - statType: 0
+    minValue: 0
+    maxValue: 1
+  - statType: 0
     minValue: 0
     maxValue: 1

@@ -95,13 +95,11 @@ public sealed class ExplorationManager : MonoBehaviour
             {
                 case RoomType.COMBAT:
                     room = Instantiate(combatPrefab);
-                    room.transform.position = new UnityEngine.Vector3(0, 0, 5);
                     room.GetComponent<CombatRoom>().roomNumber = lastRoomNumber;
                     break;
 
                 case RoomType.PACT:
                     room = Instantiate(pactPrefab);
-                    room.transform.position = new UnityEngine.Vector3(0, 0, 5);
                     room.GetComponent<PactRoom>().roomNumber = lastRoomNumber;
                     break;
                 
@@ -141,21 +139,13 @@ public sealed class ExplorationManager : MonoBehaviour
     }
     void EnterRoom()
     {
+        currentRoom.transform.position = new UnityEngine.Vector3(0, 0, 0);
         currentRoom.GetComponent<Room>().OnEnter();
         currentRoom.transform.position = UnityEngine.Vector3.zero;
         playerMover.SetPosition(currentRoom.GetComponent<Room>().enterPos);
-        switch (currentRoom.GetComponent<Room>().GetRoomType())
-        {
-            case RoomType.COMBAT:
-                GameManager.Instance.fightingManager.StartFight(currentRoom.GetComponent<CombatRoom>().GetEnemy());
-                break;
-            case RoomType.PACT:
-                //PACT MANAGER
-                break;
-        }
     }
 
-    void WalkTowardsNextDoor()
+    public void WalkTowardsNextDoor()
     {
         playerMover.SetTarget(currentRoom.GetComponent<Room>().exitPos);
     }

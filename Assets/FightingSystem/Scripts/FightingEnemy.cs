@@ -11,6 +11,7 @@ public class FightingEnemy : FightingScript
 
     public override float Die()
     {
+        GameManager.Instance.AddToScore(1);
         // TODO :: launch Die animation
         return 1.0f;// animation time 
     }

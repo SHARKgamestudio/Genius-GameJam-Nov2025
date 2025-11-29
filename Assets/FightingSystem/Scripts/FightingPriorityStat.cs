@@ -5,11 +5,10 @@ public struct FightingPriorityStat
     public double ATB;
     public double speed;
     public double maxSpeed;
-    double tickSpeed;
 
     public bool IncrementATBByNTicks(int ticks)
     {
-        ATB += tickSpeed * ticks * Time.deltaTime;
+        ATB += speed * ticks * Time.deltaTime;
         return ATB >= maxSpeed; 
     }
 
@@ -19,15 +18,9 @@ public struct FightingPriorityStat
             ATB -= maxSpeed;
     }
 
-    private void CalculateTickSpeed()
-    {
-        tickSpeed = speed / 100.0;
-    }
-
     public void InitPriority(int agility)
     {
         speed = Math.Log(agility, 2.0);
         ATB = 0.0f;
-        CalculateTickSpeed();
     }
 }

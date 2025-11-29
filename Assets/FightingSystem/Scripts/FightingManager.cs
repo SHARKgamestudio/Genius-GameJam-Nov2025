@@ -51,7 +51,7 @@ public class FightingManager : MonoBehaviour
 
     void Update()
     {
-        if (!isFightGoing) //TODO :: End fight ?
+        if (!isFightGoing) 
             return;
 
         if (isAnimationGoing)
@@ -61,18 +61,27 @@ public class FightingManager : MonoBehaviour
                 isAnimationGoing = false;
 
             if (!isAnimationGoing && endFight)
+            {
                 isFightGoing = false;
+                GameManager.Instance.explorationManager.WalkTowardsNextDoor();
+                if (!enemyStats.IsAlive())
+                {
+                    Destroy(enemyScript.gameObject);
+                }
+                else
+                {
+                    GameManager.Instance.GameOver();
+                }
+            } 
 
             return;
         }
-
-        isAnimationGoing = true;
 
         if (!enemyStats.IsAlive())
         {
             endFight = true;
             onGoingAnimationFrame = enemyScript.Die();
-
+            isAnimationGoing = true;
             return;
         }
 
@@ -80,6 +89,7 @@ public class FightingManager : MonoBehaviour
         {
             endFight = true;
             onGoingAnimationFrame = playerScript.Die();
+            isAnimationGoing = true;
             return;
         }
 
@@ -88,17 +98,21 @@ public class FightingManager : MonoBehaviour
 
         if (playerTurn)
         {
+            Debug.Log("Player attacks");
             onGoingAnimationFrame = playerScript.Attack();
             enemyScript.ReceiveDamage();
             enemyStats.TakeDamage(playerStats.strength);
             playerPriority.DecreamentATB();
+            isAnimationGoing = true;
         }
         else if (enemyTurn)
         {
+            Debug.Log("Enemy attacks");
             onGoingAnimationFrame = enemyScript.Attack();
             playerScript.ReceiveDamage();
             playerStats.TakeDamage(enemyStats.strength);
             enemyPriority.DecreamentATB();
+            isAnimationGoing = true;
         }
 
     }

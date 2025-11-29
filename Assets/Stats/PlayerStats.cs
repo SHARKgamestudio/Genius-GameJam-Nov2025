@@ -132,27 +132,27 @@ public class PlayerStats : Stats
     void Update()
     {
 
-        AddMaxLife(20);
-        AddStrength(20);
-        AddLuck(0.2f);
-        AddDefense(20);
-        AddAgility(20);
+        //AddMaxLife(20);
+        //AddStrength(20);
+        //AddLuck(0.2f);
+        //AddDefense(20);
+        //AddAgility(20);
 
-        ReduceStrengthPourcentage(1f);
-        ReduceDefensePourcentage(1f);
-        ReduceAgilityPourcentage(1f);
-        LowerMaxLife(1f);
+        //ReduceStrengthPourcentage(1f);
+        //ReduceDefensePourcentage(1f);
+        //ReduceAgilityPourcentage(1f);
+        //LowerMaxLife(1f);
 
-        AddMaxLifePourcentage(0.5f);
-        AddStrengthPourcentage(0.5f);
-        AddDefensePourcentage(0.5f);
-        AddAgilityPourcentage(0.5f);
+        //AddMaxLifePourcentage(0.5f);
+        //AddStrengthPourcentage(0.5f);
+        //AddDefensePourcentage(0.5f);
+        //AddAgilityPourcentage(0.5f);
 
-        ReduceAgility (140);
-        ReduceDefense(140);
-        ReduceLuck(140);
-        ReduceMaxLife(140);
-        ReduceStrength(140);
+        //ReduceAgility (140);
+        //ReduceDefense(140);
+        //ReduceLuck(140);
+        //ReduceMaxLife(140);
+        //ReduceStrength(140);
 
     }
 }

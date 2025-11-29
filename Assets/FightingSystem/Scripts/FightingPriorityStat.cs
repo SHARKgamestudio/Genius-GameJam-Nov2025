@@ -7,21 +7,10 @@ public struct FightingPriorityStat
     public double maxSpeed;
     double tickSpeed;
 
-    public int GetTicksToOneATB()
+    public bool IncrementATBByNTicks(int ticks)
     {
-        int ticks = 0;
-        double tempATB = ATB;
-        while (tempATB < maxSpeed)
-        {
-            ticks++;
-            tempATB += tickSpeed;
-        }
-        return ticks;
-    }
-
-    public void IncrementATBByNTicks(int ticks)
-    {
-        ATB += tickSpeed * ticks;
+        ATB += tickSpeed * ticks * Time.deltaTime;
+        return ATB >= maxSpeed; 
     }
 
     public void DecreamentATB()

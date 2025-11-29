@@ -2,11 +2,11 @@ using UnityEngine;
 using System;
 public class FightingManager : MonoBehaviour
 {
-    [SerializeField] public FightingPlayer playerScript;
-    [SerializeField] public Stats playerStats;
+    private FightingPlayer playerScript;
+    private PlayerStats playerStats;
 
     private FightingEnemy enemyScript;
-    private Stats enemyStats;
+    private EnemyStats enemyStats;
 
     FightingPriorityStat playerPriority;
     FightingPriorityStat enemyPriority;
@@ -16,7 +16,13 @@ public class FightingManager : MonoBehaviour
     bool isAnimationGoing = false;
     float onGoingAnimationFrame = 0.0f;
 
-    void StartFight(GameObject enemy)
+    private void Awake()
+    {
+        GameManager.Instance.playerManager.GetSystem<PlayerStats>(out playerStats);
+        GameManager.Instance.playerManager.GetSystem<FightingPlayer>(out playerScript);
+    }
+
+    public void StartFight(GameObject enemy)
     {
         isFightGoing = true;
         endFight = false;
@@ -76,14 +82,8 @@ public class FightingManager : MonoBehaviour
             return;
         }
 
-        int enemyTicks = enemyPriority.GetTicksToOneATB();
-        int playerTicks = playerPriority.GetTicksToOneATB();
-
-        int lowestTicks = enemyTicks < playerTicks ? enemyTicks : playerTicks;
-        bool playerTurn = enemyTicks < playerTicks ? false : true;
-
-        enemyPriority.IncrementATBByNTicks(lowestTicks);
-        playerPriority.IncrementATBByNTicks(lowestTicks);
+        bool playerTurn = playerPriority.IncrementATBByNTicks(1);
+        bool enemyTurn = enemyPriority.IncrementATBByNTicks(1);
 
         if (playerTurn)
         {
@@ -92,7 +92,7 @@ public class FightingManager : MonoBehaviour
             enemyStats.TakeDamage(playerStats.strength);
             playerPriority.DecreamentATB();
         }
-        else
+        else if (enemyTurn)
         {
             onGoingAnimationFrame = enemyScript.Attack();
             playerScript.ReceiveDamage();

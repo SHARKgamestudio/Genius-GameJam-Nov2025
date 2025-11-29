@@ -101,7 +101,11 @@ public class FightingManager : MonoBehaviour
             Debug.Log("Player attacks");
             onGoingAnimationFrame = playerScript.Attack();
             enemyScript.ReceiveDamage();
-            enemyStats.TakeDamage(playerStats.strength);
+
+            GameManager.Instance.playerManager.GetSystem<PlayerPactStack>(out PlayerPactStack stack);
+            float newStrength = stack.ApplyEffectTo(playerStats.strength, PlaceholderStatType.Strength);
+
+            enemyStats.TakeDamage(newStrength);
             playerPriority.DecreamentATB();
             isAnimationGoing = true;
         }
@@ -110,10 +114,13 @@ public class FightingManager : MonoBehaviour
             Debug.Log("Enemy attacks");
             onGoingAnimationFrame = enemyScript.Attack();
             playerScript.ReceiveDamage();
-            playerStats.TakeDamage(enemyStats.strength);
+
+            GameManager.Instance.playerManager.GetSystem<PlayerPactStack>(out PlayerPactStack stack);
+            float newStrength = stack.ApplyEffectTo(enemyStats.strength, PlaceholderStatType.Defense);
+
+            playerStats.TakeDamage(newStrength);
             enemyPriority.DecreamentATB();
             isAnimationGoing = true;
         }
-
     }
 }

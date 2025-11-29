@@ -106,7 +106,6 @@ public sealed class ExplorationManager : MonoBehaviour
                 
                 default:
                     throw new Exception("Room type generated improperly.");
-                    break;
             }
 
 
@@ -147,10 +146,10 @@ public sealed class ExplorationManager : MonoBehaviour
         switch (currentRoom.GetComponent<Room>().GetRoomType())
         {
             case RoomType.COMBAT:
-                //
+                GameManager.Instance.fightingManager.StartFight(currentRoom.GetComponent<CombatRoom>().GetEnemy());
                 break;
             case RoomType.PACT:
-                // PATC MANAGER?????
+                //PACT MANAGER
                 break;
         }
     }
@@ -172,7 +171,6 @@ public sealed class ExplorationManager : MonoBehaviour
         };
 
         // Switch game state to selection
-
     }
 
     public void ChangeRoom()
@@ -207,8 +205,7 @@ public sealed class ExplorationManager : MonoBehaviour
             currentRoom = rightRoom;
             Destroy(leftRoom);
         }
-
-        // Fade in
+        
         EnterRoom();
     }
 

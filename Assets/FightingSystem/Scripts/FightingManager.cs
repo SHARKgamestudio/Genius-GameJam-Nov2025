@@ -16,7 +16,7 @@ public class FightingManager : MonoBehaviour
     bool isAnimationGoing = false;
     float onGoingAnimationFrame = 0.0f;
 
-    private void Awake()
+    private void Start()
     {
         GameManager.Instance.playerManager.GetSystem<PlayerStats>(out playerStats);
         GameManager.Instance.playerManager.GetSystem<FightingPlayer>(out playerScript);

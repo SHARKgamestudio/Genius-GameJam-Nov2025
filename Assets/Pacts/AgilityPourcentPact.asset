@@ -10,30 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e0fb8eb6df63e0b47bcefc89413be082, type: 3}
-  m_Name: TestPact0
+  m_Name: AgilityPourcentPact
   m_EditorClassIdentifier: 
-  name: TestPact0
-  description: TestPact0 Description
-  rng: 1
+  name: Agility Pact
+  description: Agility Pact Description
+  rng: 0.25
   buffs:
-  - statType: 0
+  - statType: 4
     affectType: 2
-    minValue: 0
-    maxValue: 100
+    minValue: 40
+    maxValue: 70
   debuffs:
-  - statType: 0
-    affectType: 2
-    minValue: 0
-    maxValue: 100
-  - statType: 0
-    affectType: 2
-    minValue: 0
-    maxValue: 100
-  - statType: 0
-    affectType: 2
-    minValue: 0
-    maxValue: 100
-  - statType: 0
-    affectType: 2
-    minValue: 0
-    maxValue: 100
+  - statType: 3
+    affectType: 1
+    minValue: 5
+    maxValue: 20

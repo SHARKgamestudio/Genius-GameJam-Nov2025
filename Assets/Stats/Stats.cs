@@ -3,17 +3,16 @@ using UnityEngine;
 public class Stats : MonoBehaviour
 {
     [SerializeField][Min(0)]
-    public int life;
+    public float life;
     [SerializeField][Min(0)]
-    public int strength;
+    public float strength;
     [SerializeField] 
-    public int defense;
+    public float defense;
     [SerializeField][Min(0)]
-    public int agility;
+    public float agility;
 
-    public void TakeDamage(int amount)
+    virtual public void TakeDamage(float amount)
     {
-        amount -= defense;
         if (amount < 0)
             return;
 

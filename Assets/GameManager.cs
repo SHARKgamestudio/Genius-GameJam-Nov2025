@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance{get; private set;}
     
     public PlayerManager playerManager;
-    //public PactManager pactManager;
+    public PactGenerator pactManager;
     public ExplorationManager explorationManager;
     public FightingManager fightingManager;
 
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
         
         playerManager = FindAnyObjectByType<PlayerManager>();
-        // pactManager = FindAnyObjectByType<PactManager>();
+        pactManager = FindAnyObjectByType<PactGenerator>();
         explorationManager = FindAnyObjectByType<ExplorationManager>();
         fightingManager = FindAnyObjectByType<FightingManager>();
         CheckAttributes();
@@ -63,8 +63,8 @@ public class GameManager : MonoBehaviour
     {
         if (playerManager == null)
             Debug.LogError("PlayerManager doesn't exist");
-        // if (pactManager == null)
-        //     Debug.LogError("PactManager doesn't exist");
+        if (pactManager == null)
+            Debug.LogError("PactManager doesn't exist");
         if (explorationManager == null)
              Debug.LogError("ExplorationManager doesn't exist");
         if(fightingManager == null)

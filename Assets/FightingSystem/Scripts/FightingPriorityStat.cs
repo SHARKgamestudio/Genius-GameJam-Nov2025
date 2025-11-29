@@ -18,7 +18,7 @@ public struct FightingPriorityStat
             ATB -= maxSpeed;
     }
 
-    public void InitPriority(int agility)
+    public void InitPriority(float agility)
     {
         speed = Math.Log(agility, 2.0);
         ATB = 0.0f;

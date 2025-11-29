@@ -14,6 +14,14 @@ public class PlayerStats : Stats
             life = maxLife;
     }
 
+    public override void TakeDamage(float amount)
+    {
+        GameManager.Instance.playerManager.GetSystem<PlayerPactStack>(out PlayerPactStack stack);
+        float newDefense = stack.ApplyEffectTo(defense, PlaceholderStatType.Defense);
+        float newStrength = amount - newDefense;
+        base.TakeDamage(newStrength);
+    }
+
     public float GetLuck()
     {
         return luck;

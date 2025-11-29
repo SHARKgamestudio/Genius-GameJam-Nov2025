@@ -5,8 +5,6 @@ public class PactGenerator : MonoBehaviour
     [SerializeField] Pact[] pacts;
     [SerializeField] PactUI pactUI;
 
-    public const int PACTSET_LENGTH = 3;
-
     PlayerMover mover;
 
     [ContextMenu("Test GeneratePacts")]
@@ -41,14 +39,14 @@ public class PactGenerator : MonoBehaviour
         }
     }
 
-    public PactData[] GeneratePacts()
+    public PactData[] GeneratePacts(int count = 3)
     {
-        PactData[] result = new PactData[PACTSET_LENGTH];
+        PactData[] result = new PactData[count];
 
-        int[] chosenIndexes = new int[PACTSET_LENGTH];
+        int[] chosenIndexes = new int[count];
         int chosenCount = 0;
 
-        for (int i = 0; i < PACTSET_LENGTH; i++)
+        for (int i = 0; i < count; i++)
         {
             int index = ChooseWeightedIndexAvoidDuplicates(pacts, chosenIndexes, chosenCount);
             chosenIndexes[chosenCount] = index;

@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PactUI : MonoBehaviour
 {
     [SerializeField] GameObject card;
     [SerializeField] GameObject pactSelectorPanel;
+    [SerializeField] Button rerollButton;
 
     public void ClearCards()
     {
@@ -31,5 +33,21 @@ public class PactUI : MonoBehaviour
         {
             SpawnCard(pact, onSelected);
         }
+
+        ActiveButton(onSelected);
     }
+
+    public void ActiveButton(System.Action<PactData> onSelected)
+    {
+        //Active Button
+        rerollButton.onClick.RemoveAllListeners();
+        rerollButton.onClick.AddListener(() =>
+            {
+                ClearCards();
+                PactData[] pact = GameManager.Instance.pactManager.GeneratePacts(1);
+                SpawnCard(pact[0], onSelected);
+            }
+        );
+    }
+    
 }

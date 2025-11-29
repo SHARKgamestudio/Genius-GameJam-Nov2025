@@ -6,7 +6,15 @@ public enum PlaceholderStatType
     Health,
     Strength,
     Defense,
-    Agility
+    Agility,
+    Luck
+}
+
+public enum PlaceholderStatAffectType
+{
+    None,
+    Flat,
+    Percent
 }
 
 public enum PlaceholderEffectType
@@ -21,16 +29,8 @@ public struct EffectData
 {
     public PlaceholderEffectType effectType;
     public PlaceholderStatType affectedStat;
+    public PlaceholderStatAffectType affectType;
     public float value;
-} 
-
-[System.Serializable]
-public class Effect {
-    [SerializeField] public PlaceholderStatType statType;
-    [Range(0f, 1f)]
-    [SerializeField] public float minValue = 0.0f;
-    [Range(0.0f, 1.0f)]
-    [SerializeField] public float maxValue = 1.0f;
 }
 
 [System.Serializable]
@@ -40,10 +40,20 @@ public struct PactData
     public EffectData[] effects;
 }
 
+[System.Serializable]
+public class Effect {
+    [SerializeField] public PlaceholderStatType statType = PlaceholderStatType.Strength;
+    [SerializeField] public PlaceholderStatAffectType affectType = PlaceholderStatAffectType.Percent;
+    [Range(0.0f, 100.0f)]
+    [SerializeField] public float minValue = 0.0f;
+    [Range(0.0f, 100.0f)]
+    [SerializeField] public float maxValue = 100.0f;
+}
+
 [CreateAssetMenu(fileName = "NewPact", menuName = "DungeonCrawler/Pact", order = 1)]
 public class Pact : ScriptableObject
 {
-    [SerializeField] public string name = "NewPact";
+    [SerializeField] public new string name = "NewPact";
     [SerializeField] public string description = "Some Description";
 
     [Range (0f, 1f)]

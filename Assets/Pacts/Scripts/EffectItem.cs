@@ -11,6 +11,6 @@ public class EffectItem : MonoBehaviour
     {
         effectTitleText.text = effect.affectedStat.ToString();
         effectTypeText.text = type == PlaceholderEffectType.Buff ? "+" : "-";
-        effectValueText.text = effect.value.ToString();
+        effectValueText.text = effect.value.ToString() + (effect.affectType == PlaceholderStatAffectType.Percent ? "%" : "");
     }
 }

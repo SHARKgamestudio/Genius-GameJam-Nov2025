@@ -20,15 +20,45 @@ public class PlayerPactStack : MonoBehaviour
         return hasPact;
     }
 
-    float ApplyEffectTo(float input, PlaceholderStatType affectedStat)
+    public void TestApplyEffectsToFloat()
     {
-        //foreach (var pact in pactStack)
-        //{
-        //    foreach (var buff)
-        //    {
+        
+    }
 
-        //    }
-        //}
+    public float ApplyEffectTo(float input, PlaceholderStatType affectedStat)
+    {
+        float result = input;
+        foreach (var pact in pactStack)
+        {
+            foreach (var effect in pact.effects)
+            {
+                if(affectedStat == effect.affectedStat)
+                {
+                    if(effect.effectType == PlaceholderEffectType.Buff)
+                    {
+                        if(effect.affectType == PlaceholderStatAffectType.Flat)
+                        {
+                            result += effect.value;
+                        }
+                        else
+                        {
+                            result = result * 1 + (effect.value / 100.0f);
+                        }
+                    }
+                    else
+                    {
+                        if (effect.affectType == PlaceholderStatAffectType.Flat)
+                        {
+                            result -= effect.value;
+                        }
+                        else
+                        {
+                            result = result * 1 - (effect.value / 100.0f);
+                        }
+                    }
+                }
+            }
+        }
 
         return 0;
     }

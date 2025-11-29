@@ -50,6 +50,7 @@ public class PactGenerator : MonoBehaviour
                 EffectData data = new EffectData();
                 data.effectType = PlaceholderEffectType.Buff;
                 data.affectedStat = effect.statType;
+                data.affectType = effect.affectType;
                 data.value = Random.Range(effect.minValue, effect.maxValue);
 
                 pactData.effects[j] = data;
@@ -65,6 +66,7 @@ public class PactGenerator : MonoBehaviour
                 EffectData data = new EffectData();
                 data.effectType = PlaceholderEffectType.Debuff;
                 data.affectedStat = effect.statType;
+                data.affectType = effect.affectType;
                 data.value = Random.Range(effect.minValue, effect.maxValue);
 
                 pactData.effects[buffCount + j] = data;

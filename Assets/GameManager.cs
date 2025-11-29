@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,11 +14,11 @@ public class GameManager : MonoBehaviour
 
     private int actualScore = 0;
 
-    public void SaveScore()
+    private void SaveScore()
     {
         if (PlayerPrefs.GetInt("Highest Score") > actualScore)
             return;
-            
+        
         PlayerPrefs.SetInt("Highest Score", actualScore);
     }
 
@@ -34,6 +35,12 @@ public class GameManager : MonoBehaviour
     public void AddToScore(in int score)
     {
         actualScore += score;
+    }
+
+    public void GameOver()
+    {
+        SaveScore();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     
     void Awake()
@@ -56,11 +63,11 @@ public class GameManager : MonoBehaviour
     private void CheckAttributes()
     {
         if (playerManager == null)
-            Debug.LogError("PlayerManager doesn't exist");        
+            Debug.LogError("PlayerManager doesn't exist");
         // if (pactManager == null)
-        //     Debug.LogError("PactManager doesn't exist");        
+        //     Debug.LogError("PactManager doesn't exist");
         // if (explorationManager == null)
-        //     Debug.LogError("ExplorationManager doesn't exist");        
+        //     Debug.LogError("ExplorationManager doesn't exist");
         // if (player == null)
         //     Debug.LogError("Player doesn't exist");
     }

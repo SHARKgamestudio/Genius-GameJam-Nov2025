@@ -66,7 +66,7 @@ public class EnemyStats : Stats
     {
         PlayerStats stats;
         GameManager.Instance.playerManager.GetSystem<PlayerStats>(out stats);
-        float playerLuck = stats.luck;
+        float playerLuck = stats.luck * 100;
 
         totalRandomizedValues = 0;
         int randLifeFactor = weightedRandomRange(0, maxFactorValue, playerLuck + roomLuck, true);

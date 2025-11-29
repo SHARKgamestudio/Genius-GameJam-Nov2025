@@ -14,7 +14,6 @@ public sealed class ExplorationManager : MonoBehaviour
     Dictionary<int, RoomType> roomTypeDictionary;
     int lastRoomNumber = 0;
     const int addedWeight = 1;
-    [SerializeField] GameObject player;
     
     [SerializeField] GameObject combatPrefab;
     [SerializeField] GameObject pactPrefab;
@@ -142,7 +141,9 @@ public sealed class ExplorationManager : MonoBehaviour
     {
         currentRoom.GetComponent<Room>().OnEnter();
         currentRoom.transform.position = UnityEngine.Vector3.zero;
-        player.GetComponent<PlayerMover>().SetPosition(currentRoom.GetComponent<Room>().enterPos);
+        PlayerMover playerMover;
+        GameManager.Instance.playerManager.GetSystem<PlayerMover>(out playerMover);
+        playerMover.SetPosition(currentRoom.GetComponent<Room>().enterPos);
         switch (currentRoom.GetComponent<Room>().GetRoomType())
         {
             case RoomType.COMBAT:
@@ -156,7 +157,9 @@ public sealed class ExplorationManager : MonoBehaviour
 
     void WalkTowardsNextDoor()
     {
-        player.GetComponent<PlayerMover>().SetTarget(currentRoom.GetComponent<Room>().exitPos);
+        PlayerMover playerMover;
+        GameManager.Instance.playerManager.GetSystem<PlayerMover>(out playerMover);
+        playerMover.SetTarget(currentRoom.GetComponent<Room>().exitPos);
     }
 
     public void RoomFade()
@@ -231,8 +234,10 @@ public sealed class ExplorationManager : MonoBehaviour
         IncreaseWeight(RoomType.PACT);
 
         // Init room
-        player.GetComponent<PlayerMover>().SetPosition(currentRoom.GetComponent<Room>().enterPos);
-        player.GetComponent<PlayerMover>().OnMovementEnd += RoomFade;
+        PlayerMover playerMover;
+        GameManager.Instance.playerManager.GetSystem<PlayerMover>(out playerMover);
+        playerMover.SetPosition(currentRoom.GetComponent<Room>().enterPos);
+        playerMover.OnMovementEnd += RoomFade;
         
         currentRoom.GetComponent<Room>().Initialize();
 

@@ -17,7 +17,7 @@ public sealed class ExplorationManager : MonoBehaviour
     Array roomTypeWeight;
     Dictionary<int, RoomType> roomTypeDictionary;
     int lastRoomNumber = 0;
-    const int addedWeight = 10;
+    const int addedWeight = 1;
     [SerializeField] GameObject combatPrefab;
     [SerializeField] GameObject pactPrefab;
 
@@ -70,6 +70,8 @@ public sealed class ExplorationManager : MonoBehaviour
 
         int luckyRoom = UnityEngine.Random.Range(0, 2);
 
+        int minimumWeight = int.MaxValue;
+
         for (int i = 0; i < 2; i++)
         {
             // Pull from random room type
@@ -82,6 +84,7 @@ public sealed class ExplorationManager : MonoBehaviour
             int currentWeight = 0;
             int roomType = 0;
             RoomType type = RoomType._COUNT;
+            
             foreach (int weight in roomTypeWeight)
             {
                 currentWeight += weight;
@@ -91,6 +94,19 @@ public sealed class ExplorationManager : MonoBehaviour
                     break;
                 }
                 roomType++;
+            }
+            IncreaseWeight(type);
+
+            int index = 0;
+            foreach (int weight in roomTypeWeight) 
+            {
+                minimumWeight = Math.Min(weight, minimumWeight);
+            }
+
+            foreach (int weight in roomTypeWeight) // Reset weight
+            {
+                roomTypeWeight.SetValue(weight - minimumWeight + 1, index);
+                index++;
             }
 
             switch (type)
@@ -113,7 +129,6 @@ public sealed class ExplorationManager : MonoBehaviour
                     break;
             }
 
-            IncreaseWeight(type);
 
             if(i == luckyRoom)
             {
@@ -134,7 +149,6 @@ public sealed class ExplorationManager : MonoBehaviour
                     break;
             }
         }
-
         lastRoomNumber++;
     }
 

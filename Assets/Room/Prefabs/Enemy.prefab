@@ -50,6 +50,8 @@ MonoBehaviour:
   strength: 5
   defense: 2
   agility: 7
+  maxFactorValue: 50
+  totalRandomizedValues: 0
 --- !u!114 &4469005397833202476
 MonoBehaviour:
   m_ObjectHideFlags: 0

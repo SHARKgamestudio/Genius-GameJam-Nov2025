@@ -7,6 +7,8 @@ public class PactGenerator : MonoBehaviour
 
     public const int PACTSET_LENGTH = 3;
 
+    PlayerMover mover;
+
     [ContextMenu("Test GeneratePacts")]
     public void ChoosePact()
     {
@@ -14,8 +16,31 @@ public class PactGenerator : MonoBehaviour
         pactUI.GenerateCards(generated, (PactData pact) =>
         {
             PlayerPactStack.Instance.pactStack.Add(pact);
+            GameManager.Instance.explorationManager.WalkTowardsNextDoor();
         });
     }
+
+    void Start()
+    {
+        GameManager.Instance.playerManager.GetSystem<PlayerMover>(out mover);
+        mover.OnStayMovementEnd += OnShouldChoosePact;
+    }
+
+    void OnDisable()
+    {
+        mover.OnStayMovementEnd -= OnShouldChoosePact;
+    }
+
+    void OnShouldChoosePact()
+    {
+        GameObject roomObj = GameManager.Instance.explorationManager.GetRoom();
+        bool isPactRoom = roomObj.TryGetComponent<PactRoom>(out PactRoom balec);
+        if(isPactRoom)
+        {
+            ChoosePact();
+        }
+    }
+
     public PactData[] GeneratePacts()
     {
         PactData[] result = new PactData[PACTSET_LENGTH];

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class GameManager : MonoBehaviour
     public PactGenerator pactManager;
     public ExplorationManager explorationManager;
     public FightingManager fightingManager;
+
+    [SerializeField] Text actualScoreText;
+    [SerializeField] Text highestScoreText;
 
     private int actualScore = 0;
 
@@ -34,6 +38,8 @@ public class GameManager : MonoBehaviour
     public void AddToScore(in int score)
     {
         actualScore += score;
+
+        actualScoreText.text = "Score :" + actualScore.ToString();
     }
 
     public void GameOver()
@@ -57,6 +63,14 @@ public class GameManager : MonoBehaviour
         explorationManager = FindAnyObjectByType<ExplorationManager>();
         fightingManager = FindAnyObjectByType<FightingManager>();
         CheckAttributes();
+    }
+
+    private void Start()
+    {
+        PlayerPrefs.SetInt("Highest Score", 10);
+
+        actualScoreText.text = "Score : " + actualScore.ToString();
+        highestScoreText.text = "Highest Score : " + GetHighestScore().ToString();
     }
 
     private void CheckAttributes()

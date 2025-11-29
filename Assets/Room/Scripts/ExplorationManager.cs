@@ -141,13 +141,13 @@ public sealed class ExplorationManager : MonoBehaviour
     {
         currentRoom.transform.position = new UnityEngine.Vector3(0, 0, 0);
         currentRoom.GetComponent<Room>().OnEnter();
-        currentRoom.transform.position = UnityEngine.Vector3.zero;
         playerMover.SetPosition(currentRoom.GetComponent<Room>().enterPos);
+        playerMover.SetTarget(currentRoom.GetComponent<Room>().stayPos, MoveState.STAY);
     }
 
     public void WalkTowardsNextDoor()
     {
-        playerMover.SetTarget(currentRoom.GetComponent<Room>().exitPos);
+        playerMover.SetTarget(currentRoom.GetComponent<Room>().exitPos, MoveState.EXIT);
     }
 
     public void RoomFade()
@@ -225,7 +225,7 @@ public sealed class ExplorationManager : MonoBehaviour
 
         // Init room
         playerMover.SetPosition(currentRoom.GetComponent<Room>().enterPos);
-        playerMover.OnMovementEnd += RoomFade;
+        playerMover.OnExitMovementEnd += RoomFade;
         
         currentRoom.GetComponent<Room>().Initialize();
 

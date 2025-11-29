@@ -103,4 +103,5 @@ MonoBehaviour:
   roomNumber: 0
   luckModifier: 0
   enterPos: {x: -2, y: 0, z: -0.25}
+  stayPos: {x: 0, y: 0, z: -0.25}
   exitPos: {x: 2, y: 0, z: -0.25}

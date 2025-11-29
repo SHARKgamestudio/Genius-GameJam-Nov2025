@@ -17,6 +17,48 @@ public class PactGenerator : MonoBehaviour
         {
             PlayerPactStack.Instance.pactStack.Add(pact);
             GameManager.Instance.explorationManager.WalkTowardsNextDoor();
+
+            foreach (var effect in pact.effects)
+            {
+                switch(effect.affectedStat)
+                {
+                    case PlaceholderStatType.Agility:
+                        break;
+                    case PlaceholderStatType.Strength:
+                        break;
+                    case PlaceholderStatType.Defense:
+                        break;
+                    case PlaceholderStatType.Health:
+                        GameManager.Instance.playerManager.GetSystem<PlayerStats>(out PlayerStats stats);
+                        if(effect.affectType == PlaceholderStatAffectType.Percent)
+                        {
+                            if(effect.effectType == PlaceholderEffectType.Buff)
+                            {
+                                stats.AddMaxLifePourcentage(effect.value / 100.0f);
+                            }
+                            else
+                            {
+                                stats.LowerMaxLife(effect.value / 100.0f);
+                            }
+                        }
+                        else
+                        {
+                            if (effect.effectType == PlaceholderEffectType.Buff)
+                            {
+                                stats.AddMaxLife(effect.value);
+                            }
+                            else
+                            {
+                                stats.ReduceMaxLife(effect.value);
+                            }
+                        }
+                        break;
+                    case PlaceholderStatType.Luck:
+                        break;
+                    case PlaceholderStatType.None:
+                        break;
+                }
+            }
         });
     }
 

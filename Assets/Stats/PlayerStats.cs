@@ -5,9 +5,9 @@ public class PlayerStats : Stats
     [SerializeField][Min(0)]
     public float luck;
     [SerializeField][Min(0)] 
-    public int maxLife;
+    public float maxLife;
 
-    public void Heal(int amount)
+    public void Heal(float amount)
     {
         life += amount;
         if (life > maxLife)
@@ -41,41 +41,47 @@ public class PlayerStats : Stats
             luck = 1;
     }
 
-    public void AddMaxLife(int amount)
+    public void AddMaxLife(float amount)
     {
         maxLife += amount;
     }
 
-    public void ReduceMaxLife(int amount)
+    public void ReduceMaxLife(float amount)
     {
         maxLife -= amount;
         if(maxLife < 0)
             maxLife = 0;
+
+        if (life > maxLife)
+            life = maxLife;
     }
 
     public  void LowerMaxLife(float pourcentage)
     {
-        maxLife -= (int)(maxLife * pourcentage);
+        maxLife -= (float)(maxLife * pourcentage);
         if (maxLife < 0)
             maxLife = 0;
+
+        if (life > maxLife)
+            life = maxLife;
     }
 
     public void AddMaxLifePourcentage (float pourcentage)
     {
-        maxLife += (int)(maxLife * pourcentage);
+        maxLife += (float)(maxLife * pourcentage);
     }
 
-    public void AddStrength (int  amount)
+    public void AddStrength (float  amount)
     {
         strength += amount;
     }
 
     public void AddStrengthPourcentage(float pourcentage)
     {
-        strength += (int)(strength * pourcentage);
+        strength += (float)(strength * pourcentage);
     }
 
-    public void ReduceStrength (int amount)
+    public void ReduceStrength (float amount)
     {
         strength -= amount;
         if (strength < 0) 
@@ -84,22 +90,22 @@ public class PlayerStats : Stats
 
     public void ReduceStrengthPourcentage (float pourcentage)
     {
-        strength -= (int)(strength * pourcentage);
+        strength -= (float)(strength * pourcentage);
         if (strength < 0)
             strength = 0;
     }
 
-    public void AddDefense (int amount)
+    public void AddDefense (float amount)
     {
         defense += amount;
     }
 
     public  void AddDefensePourcentage (float pourcentage)
     {
-        defense += (int)(defense * pourcentage);
+        defense += (float)(defense * pourcentage);
     }
 
-    public void ReduceDefense(int amount)
+    public void ReduceDefense(float amount)
     {
         defense -= amount;
         if (defense < 0)
@@ -108,22 +114,22 @@ public class PlayerStats : Stats
 
     public void ReduceDefensePourcentage(float pourcentage)
     {
-        defense -= (int)(defense * pourcentage);
+        defense -= (float)(defense * pourcentage);
         if (defense < 0)
             defense = 0;
     }
 
-    public void AddAgility (int amount)
+    public void AddAgility (float amount)
     {
         agility += amount;
     }
 
     public void AddAgilityPourcentage (float pourcentage)
     {
-        agility += (int)(agility * pourcentage);
+        agility += (float)(agility * pourcentage);
     }
 
-    public void ReduceAgility (int amount)
+    public void ReduceAgility (float amount)
     {
         agility -= amount;
         if (agility < 0)
@@ -132,7 +138,7 @@ public class PlayerStats : Stats
 
     public void ReduceAgilityPourcentage(float pourcentage)
     {
-        agility -= (int)(agility * pourcentage);
+        agility -= (float)(agility * pourcentage);
         if (agility < 0)
             agility = 0;
     }

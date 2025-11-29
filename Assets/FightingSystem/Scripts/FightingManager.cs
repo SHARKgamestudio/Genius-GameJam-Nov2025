@@ -102,7 +102,7 @@ public class FightingManager : MonoBehaviour
             enemyScript.Die();
             OnGoingAnimationFrame = enemyScript.GetDieFrame();
             // To move for animation
-            GameManager.Instance.explorationManager.GoNextRoom();
+            GameManager.Instance.explorationManager.RoomFade();
             IsFightGoing = false;
             return;
         }

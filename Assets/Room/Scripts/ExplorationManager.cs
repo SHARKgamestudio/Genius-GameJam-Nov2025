@@ -7,7 +7,6 @@ using System;
 
 public sealed class ExplorationManager : MonoBehaviour
 {
-    // Player* player;
     GameObject currentRoom;
     GameObject leftRoom;
     GameObject rightRoom;
@@ -15,6 +14,8 @@ public sealed class ExplorationManager : MonoBehaviour
     Dictionary<int, RoomType> roomTypeDictionary;
     int lastRoomNumber = 0;
     const int addedWeight = 1;
+    [SerializeField] GameObject player;
+    
     [SerializeField] GameObject combatPrefab;
     [SerializeField] GameObject pactPrefab;
 
@@ -94,13 +95,13 @@ public sealed class ExplorationManager : MonoBehaviour
                 case RoomType.COMBAT:
                     room = Instantiate(combatPrefab);
                     room.transform.position = new UnityEngine.Vector3(0, 0, 5);
-                    room.AddComponent<CombatRoom>().roomNumber = lastRoomNumber;
+                    room.GetComponent<CombatRoom>().roomNumber = lastRoomNumber;
                     break;
 
                 case RoomType.PACT:
                     room = Instantiate(pactPrefab);
                     room.transform.position = new UnityEngine.Vector3(0, 0, 5);
-                    room.AddComponent<PactRoom>();
+                    room.GetComponent<PactRoom>().roomNumber = lastRoomNumber;
                     break;
                 
                 default:
@@ -142,7 +143,8 @@ public sealed class ExplorationManager : MonoBehaviour
     {
         currentRoom.GetComponent<Room>().OnEnter();
         currentRoom.transform.position = UnityEngine.Vector3.zero;
-        switch(currentRoom.GetComponent<Room>().GetRoomType())
+        player.GetComponent<PlayerMover>().SetPosition(currentRoom.GetComponent<Room>().enterPos);
+        switch (currentRoom.GetComponent<Room>().GetRoomType())
         {
             case RoomType.COMBAT:
                 //
@@ -153,17 +155,30 @@ public sealed class ExplorationManager : MonoBehaviour
         }
     }
 
-    public void GoNextRoom()
+    void WalkTowardsNextDoor()
     {
-        
-        crossfade.In();
+        player.GetComponent<PlayerMover>().SetTarget(currentRoom.GetComponent<Room>().exitPos);
+    }
 
+    public void RoomFade()
+    {
+        crossfade.In();
+        
         crossfade.OnInEnd += () =>
         {
             ExitRoom();
             GenerateRoom();
             crossfade.OnInEnd = null;
         };
+
+        // Switch game state to selection
+
+    }
+
+    public void ChangeRoom()
+    {
+        ExitRoom();
+        GenerateRoom();
 
         // Switch game state to selection
 
@@ -193,19 +208,6 @@ public sealed class ExplorationManager : MonoBehaviour
             Destroy(leftRoom);
         }
 
-        currentRoom.GetComponent<Room>().OnEnter();
-        currentRoom.transform.position = UnityEngine.Vector3.zero;
-        switch (currentRoom.GetComponent<Room>().GetRoomType())
-        {
-            case RoomType.COMBAT:
-                Room room = currentRoom.GetComponent<Room>();
-                GameManager.Instance.fightingManager.StartFight((room as CombatRoom).GetEnemy());
-                break;
-            case RoomType.PACT:
-                // PACT MANAGER?????
-                break;
-        }
-
         // Fade in
         EnterRoom();
     }
@@ -232,6 +234,9 @@ public sealed class ExplorationManager : MonoBehaviour
         IncreaseWeight(RoomType.PACT);
 
         // Init room
+        player.GetComponent<PlayerMover>().SetPosition(currentRoom.GetComponent<Room>().enterPos);
+        player.GetComponent<PlayerMover>().OnMovementEnd += RoomFade;
+        
         currentRoom.GetComponent<Room>().Initialize();
 
         // Add to next rooms
@@ -245,7 +250,7 @@ public sealed class ExplorationManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.D))
         {
-            GoNextRoom();
+            WalkTowardsNextDoor();
         }
     }
 

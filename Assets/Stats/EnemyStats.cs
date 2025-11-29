@@ -5,6 +5,7 @@ public class EnemyStats : Stats
 {
     [SerializeField] int maxFactorValue;
     public int totalRandomizedValues; // 0 to 200
+    public float roomLuck = 0;
 
     public override void TakeDamage(float amount)
     {
@@ -25,16 +26,17 @@ public class EnemyStats : Stats
 
         // 55 luck would mean having the rarest element at a weight 55
         // and opposite at 45
+
         for (int i = 0; i < size; i++)
         {
             int weight;
             if (weightMaximum)
             {
-                weight = (int)Mathf.Round((multipliedLuck / detail) * (size - i) / size + (detail - multipliedLuck / detail) * i / size);
+                weight = (int)Mathf.Round((multipliedLuck) * (i) / size + (detail - multipliedLuck ) * (size - i) / size);
             }
             else
             {
-                weight = (int)Mathf.Round((multipliedLuck / detail) * (i) / size + (detail - multipliedLuck / detail) * (size - i) / size);
+                weight = (int)Mathf.Round((multipliedLuck) * (size - i) / size + (detail - multipliedLuck) * i / size);
             }
             weightedRange[i] = weight;
             totalWeight += weight;
@@ -62,18 +64,22 @@ public class EnemyStats : Stats
 
     public void ScaleStats(int floorNumber)
     {
+        PlayerStats stats;
+        GameManager.Instance.playerManager.GetSystem<PlayerStats>(out stats);
+        float playerLuck = stats.luck;
+
         totalRandomizedValues = 0;
-        int randLifeFactor = weightedRandomRange(0, maxFactorValue, 50, true);
+        int randLifeFactor = weightedRandomRange(0, maxFactorValue, playerLuck + roomLuck, true);
         totalRandomizedValues += randLifeFactor;
-        int randStrengthFactor = UnityEngine.Random.Range(0, maxFactorValue);
+        int randStrengthFactor = weightedRandomRange(0, maxFactorValue, playerLuck + roomLuck, true);
         totalRandomizedValues += randStrengthFactor;
-        int randDefenseFactor = UnityEngine.Random.Range(0, maxFactorValue);
+        int randDefenseFactor = weightedRandomRange(0, maxFactorValue, playerLuck + roomLuck, true);
         totalRandomizedValues += randDefenseFactor;
-        int randAgilityFactor = UnityEngine.Random.Range(0, maxFactorValue);
+        int randAgilityFactor = weightedRandomRange(0, maxFactorValue, playerLuck + roomLuck, true);
         totalRandomizedValues += randAgilityFactor;
-        //life *= 1 + (randLifeFactor - maxFactorValue/2) / 100.0f * ScalingFunction(floorNumber);
-        //strength *= 1 + (randStrengthFactor - maxFactorValue / 2) / 100.0f * ScalingFunction(floorNumber);
-        //defense *= 1 + (randDefenseFactor - maxFactorValue / 2) / 100.0f * ScalingFunction(floorNumber);
-        //agility *= 1 + (randAgilityFactor - maxFactorValue / 2) / 100.0f * ScalingFunction(floorNumber);
+        life *= 1 + (randLifeFactor - maxFactorValue/2) / 100.0f * ScalingFunction(floorNumber);
+        strength *= 1 + (randStrengthFactor - maxFactorValue / 2) / 100.0f * ScalingFunction(floorNumber);
+        defense *= 1 + (randDefenseFactor - maxFactorValue / 2) / 100.0f * ScalingFunction(floorNumber);
+        agility *= 1 + (randAgilityFactor - maxFactorValue / 2) / 100.0f * ScalingFunction(floorNumber);
     }
 }

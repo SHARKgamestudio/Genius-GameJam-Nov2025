@@ -9,7 +9,7 @@ public class EnemyUI : MonoBehaviour
     EnemyStats stats;
     float maxLife;
 
-    void Start()
+    public void InitUI()
     {
         stats = GetComponent<EnemyStats>();
 

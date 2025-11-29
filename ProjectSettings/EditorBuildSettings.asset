@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/UiStart/UI.unity
     guid: bb3274dc256acfb43a9ad13b44075d1c
   - enabled: 1
-    path: Assets/Test/GameTest.unity
-    guid: ac2f633aca5770b46ba241b7bdd60f47
-  - enabled: 1
     path: Assets/UiGameOver/UiGameOver.unity
     guid: 2cdc5231836f0f644a58fbc33336108f
   m_configObjects:

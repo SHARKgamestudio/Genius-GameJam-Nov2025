@@ -1,120 +1,78 @@
 using UnityEngine;
 using System;
-
-public struct PriorityStat
-{
-    public double ATB;
-    public double speed;
-    public double maxSpeed;
-    double tickSpeed;
-
-    public int GetTicksToOneATB()
-    {   
-        int ticks = 0;
-        double tempATB = ATB;
-        while (tempATB < maxSpeed) {
-            ticks++;
-            tempATB += tickSpeed;
-        }
-        return ticks;
-    }
-
-    public void IncrementATBByNTicks(int ticks)
-    {
-        ATB += tickSpeed * ticks;
-    }
-
-    public void DecreamentATB()
-    {
-        if (ATB >= maxSpeed)
-            ATB -= maxSpeed;
-    }
-
-    public void CalculateTickSpeed()
-    {
-        tickSpeed = speed / 100.0;
-    }
-
-    public void InitPriority(int agility)
-    {
-        speed = Math.Log(agility, 2.0);
-        ATB = 0.0f;
-        CalculateTickSpeed();
-    }
-}
-
 public class FightingManager : MonoBehaviour
 {
-    [SerializeField] public FightingPlayerScript playerScript;
-    [SerializeField] public PlayerStats statsPlayer;
+    [SerializeField] public FightingPlayer playerScript;
+    [SerializeField] public Stats playerStats;
 
-    private FightingEnemyScript enemyScript;
-    private Stats statsEnemy;
+    private FightingEnemy enemyScript;
+    private Stats enemyStats;
 
-    PriorityStat playerPriority;
-    PriorityStat enemyPriority;
+    FightingPriorityStat playerPriority;
+    FightingPriorityStat enemyPriority;
 
-    bool IsFightGoing = false;
-    bool EndFight = false;
-    bool IsAnimationGoing = false;
-    int OnGoingAnimationFrame = 0;
+    bool isFightGoing = false;
+    bool endFight = false;
+    bool isAnimationGoing = false;
+    float onGoingAnimationFrame = 0.0f;
 
-    public void StartFight(GameObject enemy)
+    void StartFight(GameObject enemy)
     {
-        IsFightGoing = true;
-        EndFight = false;
-        IsAnimationGoing = false;
-        OnGoingAnimationFrame = 0;
+        isFightGoing = true;
+        endFight = false;
+        isAnimationGoing = false;
+        onGoingAnimationFrame = 0.0f;
 
-        enemyScript = enemy.GetComponent<FightingEnemyScript>();
-        statsEnemy = enemy.GetComponent<EnemyStats>();
+        enemyScript = enemy.GetComponent<FightingEnemy>();
+        enemyStats = enemy.GetComponent<EnemyStats>();
 
-        enemyPriority.InitPriority(statsEnemy.agility);
-        playerPriority.InitPriority(statsPlayer.agility);
+        enemyPriority.InitPriority(enemyStats.agility);
+        playerPriority.InitPriority(playerStats.agility);
 
         playerPriority.maxSpeed = enemyPriority.speed > playerPriority.speed ? enemyPriority.speed : playerPriority.speed;
         enemyPriority.maxSpeed = enemyPriority.speed > playerPriority.speed ? enemyPriority.speed : playerPriority.speed;
+
+        EntryFightAnimation();
+    }
+
+    void EntryFightAnimation()
+    {
+        // TODO :: lauch Entry fight animation
+        onGoingAnimationFrame = 1.0f;
+        isAnimationGoing = true;
     }
 
 
     void Update()
     {
-        if (!IsFightGoing) //TODO End fight scene
+        if (!isFightGoing) //TODO :: End fight ?
             return;
 
-        if (IsAnimationGoing)
+        if (isAnimationGoing)
         {
-            OnGoingAnimationFrame--;
-            if (OnGoingAnimationFrame <= 0)
-                IsAnimationGoing = false;
+            onGoingAnimationFrame -= Time.deltaTime;
+            if (onGoingAnimationFrame <= 0.0f)
+                isAnimationGoing = false;
 
-            if (!IsAnimationGoing && EndFight)
-                IsFightGoing = false;
+            if (!isAnimationGoing && endFight)
+                isFightGoing = false;
 
-            return;
-        }
-
-        IsAnimationGoing = true;
-
-        if (!statsEnemy.IsAlive())
-        {
-            EndFight = true;
-            enemyScript.Die();
-            OnGoingAnimationFrame = enemyScript.GetDieFrame();
-            // To move for animation
-            GameManager.Instance.explorationManager.GoNextRoom();
-            IsFightGoing = false;
             return;
         }
 
-        if (!statsPlayer.IsAlive())
+        isAnimationGoing = true;
+
+        if (!enemyStats.IsAlive())
         {
-            EndFight = true;
-            playerScript.Die();
-            OnGoingAnimationFrame= playerScript.GetDieFrame();
-            // To move for animation
-            GameManager.Instance.GameOver();
-            IsFightGoing = false;
+            endFight = true;
+            onGoingAnimationFrame = enemyScript.Die();
+            return;
+        }
+
+        if (!playerStats.IsAlive())
+        {
+            endFight = true;
+            onGoingAnimationFrame = playerScript.Die();
             return;
         }
 
@@ -129,16 +87,16 @@ public class FightingManager : MonoBehaviour
 
         if (playerTurn)
         {
-            OnGoingAnimationFrame = playerScript.GetAttackFrame();
-            playerScript.Attack();
-            statsEnemy.TakeDamage(statsPlayer.strength);
+            onGoingAnimationFrame = playerScript.Attack();
+            enemyScript.ReceiveDamage();
+            enemyStats.TakeDamage(playerStats.strength);
             playerPriority.DecreamentATB();
         }
         else
         {
-            OnGoingAnimationFrame = enemyScript.GetAttackFrame();
-            enemyScript.Attack();
-            statsPlayer.TakeDamage(statsEnemy.strength);
+            onGoingAnimationFrame = enemyScript.Attack();
+            playerScript.ReceiveDamage();
+            playerStats.TakeDamage(enemyStats.strength);
             enemyPriority.DecreamentATB();
         }
 

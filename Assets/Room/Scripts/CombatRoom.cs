@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class CombatRoom : Room
 {
-    //Enemy enemy
-    //public Enemy GetEnemy()
-    //{
-    //    return enemy;
-    //}
+    private GameObject enemy;
+    
+    public GameObject GetEnemy()
+    {
+        return enemy;
+    }
 
     void GenerateEnemy()
     {

@@ -8,9 +8,8 @@ public class GameManager : MonoBehaviour
     
     public PlayerManager playerManager;
     //public PactManager pactManager;
-    //public ExplorationManager explorationManager;
-    
-    //public Player player;
+    public ExplorationManager explorationManager;
+    public FightingManager fightingManager;
 
     private int actualScore = 0;
 
@@ -55,8 +54,8 @@ public class GameManager : MonoBehaviour
         
         playerManager = FindAnyObjectByType<PlayerManager>();
         // pactManager = FindAnyObjectByType<PactManager>();
-        // explorationManager = FindAnyObjectByType<ExplorationManager>();
-        // player = FindAnyObjectByType<Player>();
+        explorationManager = FindAnyObjectByType<ExplorationManager>();
+        fightingManager = FindAnyObjectByType<FightingManager>();
         CheckAttributes();
     }
 
@@ -66,9 +65,9 @@ public class GameManager : MonoBehaviour
             Debug.LogError("PlayerManager doesn't exist");
         // if (pactManager == null)
         //     Debug.LogError("PactManager doesn't exist");
-        // if (explorationManager == null)
-        //     Debug.LogError("ExplorationManager doesn't exist");
-        // if (player == null)
-        //     Debug.LogError("Player doesn't exist");
+        if (explorationManager == null)
+             Debug.LogError("ExplorationManager doesn't exist");
+        if(fightingManager == null)
+            Debug.LogError("FightingManager doesn't exist");
     }
 }

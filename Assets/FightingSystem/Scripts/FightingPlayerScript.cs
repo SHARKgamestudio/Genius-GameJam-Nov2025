@@ -15,6 +15,7 @@ public class FightingPlayerScript : MonoBehaviour
     public void Die()
     {
         // TODO launch die anim
+        GameManager.Instance.GameOver();
     }
 
     public int GetDieFrame()

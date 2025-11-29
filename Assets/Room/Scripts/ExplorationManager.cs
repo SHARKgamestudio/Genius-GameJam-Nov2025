@@ -7,9 +7,6 @@ using System;
 
 public sealed class ExplorationManager : MonoBehaviour
 {
-    private static ExplorationManager _instance;
-
-    [SerializeField] int roomAmount;
     // Player* player;
     GameObject currentRoom;
     GameObject leftRoom;
@@ -21,10 +18,7 @@ public sealed class ExplorationManager : MonoBehaviour
     [SerializeField] GameObject combatPrefab;
     [SerializeField] GameObject pactPrefab;
 
-    [SerializeField] GameObject leftButton;
-    [SerializeField] GameObject rightButton;
-
-    [SerializeField] GameObject fadeLayer;
+    [SerializeField] AlphaTweening crossfade;
 
     [SerializeField] float luckyModifier;
     [SerializeField] float unluckyModifier;
@@ -32,20 +26,6 @@ public sealed class ExplorationManager : MonoBehaviour
     public GameObject GetRoom()
     {
         return currentRoom;
-    }
-
-    public int GetRoomNumber()
-    { 
-        return lastRoomNumber - roomAmount;
-    }
-
-    public static ExplorationManager GetInstance()
-    {
-        if (_instance == null)
-        {
-            _instance = new ExplorationManager();
-        }
-        return _instance;
     }
 
     void IncreaseWeight(RoomType _ignoreType)
@@ -122,8 +102,7 @@ public sealed class ExplorationManager : MonoBehaviour
                     room.transform.position = new UnityEngine.Vector3(0, 0, 5);
                     room.AddComponent<PactRoom>();
                     break;
-
-                case RoomType._COUNT:
+                
                 default:
                     throw new Exception("Room type generated improperly.");
                     break;
@@ -166,7 +145,7 @@ public sealed class ExplorationManager : MonoBehaviour
         switch(currentRoom.GetComponent<Room>().GetRoomType())
         {
             case RoomType.COMBAT:
-                // combat manager
+                //
                 break;
             case RoomType.PACT:
                 // PATC MANAGER?????
@@ -176,18 +155,15 @@ public sealed class ExplorationManager : MonoBehaviour
 
     public void GoNextRoom()
     {
-        ExitRoom();
+        
+        crossfade.In();
 
-        // Layer fade in
-        fadeLayer.GetComponent<FadeLayer>().SetTarget(new Color(0, 0, 0, 1));
-
-        // Show room UI
-        leftButton.GetComponent<Button>().interactable = true;
-        rightButton.GetComponent<Button>().interactable = true;
-        leftButton.GetComponent<FadeImage>().ResetTarget();
-        rightButton.GetComponent<FadeImage>().ResetTarget();
-
-        GenerateRoom();
+        crossfade.OnInEnd += () =>
+        {
+            ExitRoom();
+            GenerateRoom();
+            crossfade.OnInEnd = null;
+        };
 
         // Switch game state to selection
 
@@ -204,13 +180,7 @@ public sealed class ExplorationManager : MonoBehaviour
 
     public void NextRoom(bool _left)
     {
-        // Layer fade out
-        fadeLayer.GetComponent<FadeLayer>().SetTarget(new Color(0, 0, 0, 0));
-        // Hide room UI
-        leftButton.GetComponent<FadeImage>().SetTarget(new Color(1, 1, 1, 0));
-        rightButton.GetComponent<FadeImage>().SetTarget(new Color(1, 1, 1, 0));
-        leftButton.GetComponent<Button>().interactable = false;
-        rightButton.GetComponent<Button>().interactable = false;
+        crossfade.Out();
 
         if(_left)
         {
@@ -228,11 +198,11 @@ public sealed class ExplorationManager : MonoBehaviour
         switch (currentRoom.GetComponent<Room>().GetRoomType())
         {
             case RoomType.COMBAT:
-                // combat manager
+                Room room = currentRoom.GetComponent<Room>();
+                GameManager.Instance.fightingManager.StartFight((room as CombatRoom).GetEnemy());
                 break;
             case RoomType.PACT:
-                // PATC MANAGER?????
-
+                // PACT MANAGER?????
                 break;
         }
 
@@ -242,19 +212,6 @@ public sealed class ExplorationManager : MonoBehaviour
 
     void Start()
     {
-        Button lButton = leftButton.GetComponent<Button>();
-        lButton.onClick.AddListener(ChooseFirstRoom);
-        Button rButton = rightButton.GetComponent<Button>();
-        rButton.onClick.AddListener(ChooseSecondRoom);
-
-        // Hide room UI
-        leftButton.GetComponent<FadeImage>().SetColor(new Color(0, 0, 0, 0));
-        rightButton.GetComponent<FadeImage>().SetColor(new Color(0, 0, 0, 0));
-        lButton.interactable = false;
-        rButton.interactable = false;
-
-        fadeLayer.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
-
         /// Room generation ///
         roomTypeDictionary = new Dictionary<int, RoomType>();
 

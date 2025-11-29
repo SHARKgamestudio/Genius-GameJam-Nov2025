@@ -43,10 +43,10 @@ public struct PriorityStat
     }
 }
 
-public class FightingScriptManager : MonoBehaviour
+public class FightingManager : MonoBehaviour
 {
     [SerializeField] public FightingPlayerScript playerScript;
-    [SerializeField] public Stats statsPlayer;
+    [SerializeField] public PlayerStats statsPlayer;
 
     private FightingEnemyScript enemyScript;
     private Stats statsEnemy;
@@ -59,7 +59,7 @@ public class FightingScriptManager : MonoBehaviour
     bool IsAnimationGoing = false;
     int OnGoingAnimationFrame = 0;
 
-    void StartFight(GameObject enemy)
+    public void StartFight(GameObject enemy)
     {
         IsFightGoing = true;
         EndFight = false;
@@ -67,7 +67,7 @@ public class FightingScriptManager : MonoBehaviour
         OnGoingAnimationFrame = 0;
 
         enemyScript = enemy.GetComponent<FightingEnemyScript>();
-        statsEnemy = enemy.GetComponent<EnnemyStats>();
+        statsEnemy = enemy.GetComponent<EnemyStats>();
 
         enemyPriority.InitPriority(statsEnemy.agility);
         playerPriority.InitPriority(statsPlayer.agility);
@@ -101,6 +101,9 @@ public class FightingScriptManager : MonoBehaviour
             EndFight = true;
             enemyScript.Die();
             OnGoingAnimationFrame = enemyScript.GetDieFrame();
+            // To move for animation
+            GameManager.Instance.explorationManager.GoNextRoom();
+            IsFightGoing = false;
             return;
         }
 
@@ -109,6 +112,9 @@ public class FightingScriptManager : MonoBehaviour
             EndFight = true;
             playerScript.Die();
             OnGoingAnimationFrame= playerScript.GetDieFrame();
+            // To move for animation
+            GameManager.Instance.GameOver();
+            IsFightGoing = false;
             return;
         }
 

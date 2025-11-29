@@ -1,10 +1,10 @@
-using System.Diagnostics;
 using UnityEngine;
 
 public class CombatRoom : Room
 {
-    private GameObject enemy;
+    [SerializeField] GameObject enemyPrefab;
     
+    private GameObject enemy;
     public GameObject GetEnemy()
     {
         return enemy;
@@ -12,7 +12,8 @@ public class CombatRoom : Room
 
     void GenerateEnemy()
     {
-        //roomNumber;
+        GameObject newEnemy = Instantiate(enemyPrefab, this.transform);
+        enemy = newEnemy;
     }
 
     public override void Initialize()
@@ -25,7 +26,6 @@ public class CombatRoom : Room
         GenerateEnemy();
 
         print("Entered Combat");
-        //ExplorationManager.GetInstance().Advance();
     }
 
     public override void OnExit()

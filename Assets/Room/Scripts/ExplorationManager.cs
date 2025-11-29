@@ -94,18 +94,15 @@ public sealed class ExplorationManager : MonoBehaviour
                 case RoomType.COMBAT:
                     room = Instantiate(combatPrefab);
                     room.transform.position = new UnityEngine.Vector3(0, 0, 5);
-                    room.AddComponent<CombatRoom>().roomNumber = lastRoomNumber;
                     break;
 
                 case RoomType.PACT:
                     room = Instantiate(pactPrefab);
                     room.transform.position = new UnityEngine.Vector3(0, 0, 5);
-                    room.AddComponent<PactRoom>();
                     break;
                 
                 default:
                     throw new Exception("Room type generated improperly.");
-                    break;
             }
 
 
@@ -145,10 +142,10 @@ public sealed class ExplorationManager : MonoBehaviour
         switch(currentRoom.GetComponent<Room>().GetRoomType())
         {
             case RoomType.COMBAT:
-                //
+                GameManager.Instance.fightingManager.StartFight(currentRoom.GetComponent<CombatRoom>().GetEnemy());
                 break;
             case RoomType.PACT:
-                // PATC MANAGER?????
+                //PACT MANAGER
                 break;
         }
     }
@@ -166,7 +163,6 @@ public sealed class ExplorationManager : MonoBehaviour
         };
 
         // Switch game state to selection
-
     }
 
     public void ChooseFirstRoom()
@@ -192,21 +188,7 @@ public sealed class ExplorationManager : MonoBehaviour
             currentRoom = rightRoom;
             Destroy(leftRoom);
         }
-
-        currentRoom.GetComponent<Room>().OnEnter();
-        currentRoom.transform.position = UnityEngine.Vector3.zero;
-        switch (currentRoom.GetComponent<Room>().GetRoomType())
-        {
-            case RoomType.COMBAT:
-                Room room = currentRoom.GetComponent<Room>();
-                GameManager.Instance.fightingManager.StartFight((room as CombatRoom).GetEnemy());
-                break;
-            case RoomType.PACT:
-                // PACT MANAGER?????
-                break;
-        }
-
-        // Fade in
+        
         EnterRoom();
     }
 

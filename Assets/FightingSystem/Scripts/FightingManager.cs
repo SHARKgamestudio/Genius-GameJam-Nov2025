@@ -8,13 +8,19 @@ public class FightingManager : MonoBehaviour
     private FightingEnemy enemyScript;
     private EnemyStats enemyStats;
 
-    FightingPriorityStat playerPriority;
-    FightingPriorityStat enemyPriority;
+    public FightingPriorityStat playerPriority;
+    public FightingPriorityStat enemyPriority;
 
     bool isFightGoing = false;
     bool endFight = false;
     bool isAnimationGoing = false;
     float onGoingAnimationFrame = 0.0f;
+
+    void Awake()
+    {
+        playerPriority = new FightingPriorityStat(0.0f, 0.0f, 1.0f);
+        enemyPriority = new FightingPriorityStat(0.0f, 0.0f, 1.0f);
+    }
 
     private void Start()
     {
@@ -102,10 +108,7 @@ public class FightingManager : MonoBehaviour
             onGoingAnimationFrame = playerScript.Attack();
             enemyScript.ReceiveDamage();
 
-            GameManager.Instance.playerManager.GetSystem<PlayerPactStack>(out PlayerPactStack stack);
-            float newStrength = stack.ApplyEffectTo(playerStats.strength, PlaceholderStatType.Strength);
-
-            enemyStats.TakeDamage(newStrength);
+            enemyStats.TakeDamage(playerStats.strength);
             playerPriority.DecreamentATB();
             isAnimationGoing = true;
         }
@@ -115,10 +118,7 @@ public class FightingManager : MonoBehaviour
             onGoingAnimationFrame = enemyScript.Attack();
             playerScript.ReceiveDamage();
 
-            GameManager.Instance.playerManager.GetSystem<PlayerPactStack>(out PlayerPactStack stack);
-            float newStrength = stack.ApplyEffectTo(enemyStats.strength, PlaceholderStatType.Defense);
-
-            playerStats.TakeDamage(newStrength);
+            playerStats.TakeDamage(enemyStats.strength);
             enemyPriority.DecreamentATB();
             isAnimationGoing = true;
         }

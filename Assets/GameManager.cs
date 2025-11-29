@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
         pactManager = FindAnyObjectByType<PactGenerator>();
         explorationManager = FindAnyObjectByType<ExplorationManager>();
         fightingManager = FindAnyObjectByType<FightingManager>();
+
         CheckAttributes();
     }
 

@@ -1,14 +1,5 @@
 using UnityEngine;
 using System;
-using JetBrains.Annotations;
-public struct Stats
-{
-    public int life;
-    public int str;
-    public int def;
-    public int age;
-    public float luck;
-}
 
 public struct PriorityStat
 {
@@ -54,8 +45,11 @@ public struct PriorityStat
 
 public class FightingScriptManager : MonoBehaviour
 {
-    [SerializeField] public FightingEnemyScript enemyScript;
     [SerializeField] public FightingPlayerScript playerScript;
+    [SerializeField] public Stats statsPlayer;
+
+    private FightingEnemyScript enemyScript;
+    private Stats statsEnemy;
 
     PriorityStat playerPriority;
     PriorityStat enemyPriority;
@@ -65,34 +59,27 @@ public class FightingScriptManager : MonoBehaviour
     bool IsAnimationGoing = false;
     int OnGoingAnimationFrame = 0;
 
-
-    private void Start()
-    {
-        StartFight();
-    }
-    void StartFight()
+    void StartFight(GameObject enemy)
     {
         IsFightGoing = true;
         EndFight = false;
         IsAnimationGoing = false;
         OnGoingAnimationFrame = 0;
 
-        //enemyScript = ExplorationManager.GetInstance().GetCurrentRoom().GetNearestEnemy().GetComponent<EnemyScript>();
-        Stats statsEnemy = enemyScript.GetStats();
-        Stats statsPlayer = playerScript.GetStats();
+        enemyScript = enemy.GetComponent<FightingEnemyScript>();
+        statsEnemy = enemy.GetComponent<EnnemyStats>();
 
-        enemyPriority.InitPriority(statsEnemy.age);
-        playerPriority.InitPriority(statsPlayer.age);
+        enemyPriority.InitPriority(statsEnemy.agility);
+        playerPriority.InitPriority(statsPlayer.agility);
 
         playerPriority.maxSpeed = enemyPriority.speed > playerPriority.speed ? enemyPriority.speed : playerPriority.speed;
         enemyPriority.maxSpeed = enemyPriority.speed > playerPriority.speed ? enemyPriority.speed : playerPriority.speed;
-
     }
 
 
     void Update()
     {
-        if (!IsFightGoing) //TODO :: end fight scene
+        if (!IsFightGoing) //TODO End fight scene
             return;
 
         if (IsAnimationGoing)
@@ -109,7 +96,7 @@ public class FightingScriptManager : MonoBehaviour
 
         IsAnimationGoing = true;
 
-        if (!enemyScript.IsAlive())
+        if (!statsEnemy.IsAlive())
         {
             EndFight = true;
             enemyScript.Die();
@@ -117,7 +104,7 @@ public class FightingScriptManager : MonoBehaviour
             return;
         }
 
-        if (!playerScript.IsAlive())
+        if (!statsPlayer.IsAlive())
         {
             EndFight = true;
             playerScript.Die();
@@ -137,13 +124,15 @@ public class FightingScriptManager : MonoBehaviour
         if (playerTurn)
         {
             OnGoingAnimationFrame = playerScript.GetAttackFrame();
-            playerScript.Attack(enemyScript);
+            playerScript.Attack();
+            statsEnemy.TakeDamage(statsPlayer.strength);
             playerPriority.DecreamentATB();
         }
         else
         {
             OnGoingAnimationFrame = enemyScript.GetAttackFrame();
-            enemyScript.Attack(playerScript);
+            enemyScript.Attack();
+            statsPlayer.TakeDamage(statsEnemy.strength);
             enemyPriority.DecreamentATB();
         }
 

@@ -2,8 +2,10 @@
 
 public class PlayerStats : Stats
 {
-    [SerializeField] public float luck;
-    [SerializeField] public int maxLife;
+    [SerializeField][Min(0)]
+    public float luck;
+    [SerializeField][Min(0)] 
+    public int maxLife;
 
     public void Heal(int amount)
     {

@@ -2,13 +2,21 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
-    [SerializeField] public int life;
-    [SerializeField] public int strength;
-    [SerializeField] public int defense;
-    [SerializeField] public int agility;
+    [SerializeField][Min(0)]
+    public int life;
+    [SerializeField][Min(0)]
+    public int strength;
+    [SerializeField] 
+    public int defense;
+    [SerializeField][Min(0)]
+    public int agility;
 
     public void TakeDamage(int amount)
     {
+        amount -= defense;
+        if (amount < 0)
+            return;
+
         life -= amount;
         if (life < 0)
             life = 0;
@@ -16,6 +24,6 @@ public class Stats : MonoBehaviour
 
     public bool IsAlive ()
     {
-        return life != 0;
+        return life > 0;
     }
 }

@@ -14,7 +14,7 @@ public class FightingPlayer : FightingScript
 
     protected override void AddReceiveDamageAnimationToQueue()
     {
-        SpriteRenderer selfSprite = GameManager.Instance.playerManager.GetComponent<SpriteRenderer>();
+        SpriteRenderer selfSprite = GameManager.Instance.playerManager.GetComponentInChildren<SpriteRenderer>();
         Color currentColor = selfSprite.color;
         queue.EnqueueAnimation(new AnimationItem(() => ChangeColor(selfSprite, Color.darkRed, receiveDamageTime * 0.8f)));
         queue.EnqueueAnimation(new AnimationItem(() => ChangeColor(selfSprite, currentColor, receiveDamageTime * 0.2f)));
@@ -22,8 +22,8 @@ public class FightingPlayer : FightingScript
 
     protected override void AddDieAnimationToQueue()
     {
-        SpriteRenderer selfSprite = GameManager.Instance.playerManager.GetComponent<SpriteRenderer>();
-        queue.EnqueueAnimation(new AnimationItem(() => BlinkSprite(selfSprite, dieTime, 10.0f)));
+        SpriteRenderer selfSprite = GameManager.Instance.playerManager.GetComponentInChildren<SpriteRenderer>();
+        queue.EnqueueAnimation(new AnimationItem(() => BlinkSprite(selfSprite, dieTime, dieTime * 0.05f)));
     }
 
 }

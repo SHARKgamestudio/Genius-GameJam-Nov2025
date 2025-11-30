@@ -7,7 +7,9 @@ public enum PlaceholderStatType
     Strength,
     Defense,
     Agility,
-    Luck
+    Luck,
+    Heal,
+    Custom
 }
 
 public enum PlaceholderStatAffectType
@@ -27,6 +29,7 @@ public enum PlaceholderEffectType
 [System.Serializable]
 public struct EffectData
 {
+    public Effect type;
     public PlaceholderEffectType effectType;
     public PlaceholderStatType affectedStat;
     public PlaceholderStatAffectType affectType;
@@ -45,6 +48,7 @@ public struct PactData
 public class Effect {
     [SerializeField] public PlaceholderStatType statType = PlaceholderStatType.Strength;
     [SerializeField] public PlaceholderStatAffectType affectType = PlaceholderStatAffectType.Percent;
+    [SerializeField] public string customDesc = "HALA LE POULET";
     [Range(0.0f, 100.0f)]
     [SerializeField] public float minValue = 0.0f;
     [Range(0.0f, 100.0f)]

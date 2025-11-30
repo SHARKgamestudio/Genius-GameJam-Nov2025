@@ -8,6 +8,7 @@ public class PactGenerator : MonoBehaviour
 {
     [SerializeField] List<Pact> pacts;
     [SerializeField] PactUI pactUI;
+    [SerializeField] AlphaTweening uiRoot;
 
     PlayerMover mover;
 
@@ -133,6 +134,18 @@ public class PactGenerator : MonoBehaviour
                         stats.ReduceLuck(effect.value);
                     }
                     break;
+                case PlaceholderStatType.Heal:
+                    if(effect.affectType == PlaceholderStatAffectType.Percent)
+                    {
+                        if(effect.effectType == PlaceholderEffectType.Buff)
+                            stats.Heal(stats.maxLife * effect.value / 100f);
+                    }
+                    else
+                    {
+                        if (effect.effectType == PlaceholderEffectType.Buff)
+                            stats.Heal(effect.value);
+                    }
+                    break;
                 case PlaceholderStatType.None:
                     break;
             }
@@ -185,10 +198,20 @@ public class PactGenerator : MonoBehaviour
 
                 break;
         }
+
+        uiRoot.Out();
+        uiRoot.OnOutEnd += () =>
+        {
+            uiRoot.gameObject.SetActive(false);
+            uiRoot.OnOutEnd = null;
+        };
     }
 
     public void ChoosePact()
     {
+        uiRoot.gameObject.SetActive(true);
+        uiRoot.In();
+
         PactData[] generated = GeneratePacts();
         pactUI.GenerateCards(generated, (PactData pact) => ApplyPact(pact));
     }
@@ -252,6 +275,7 @@ public class PactGenerator : MonoBehaviour
                 Effect effect = pact.buffs[j];
 
                 EffectData data = new EffectData();
+                data.type = effect;
                 data.effectType = PlaceholderEffectType.Buff;
                 data.affectedStat = effect.statType;
                 data.affectType = effect.affectType;
@@ -269,6 +293,7 @@ public class PactGenerator : MonoBehaviour
                 Effect effect = pact.debuffs[j];
 
                 EffectData data = new EffectData();
+                data.type = effect;
                 data.effectType = PlaceholderEffectType.Debuff;
                 data.affectedStat = effect.statType;
                 data.affectType = effect.affectType;

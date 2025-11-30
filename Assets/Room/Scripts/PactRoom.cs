@@ -6,19 +6,19 @@ public class PactRoom : Room
 
     public override void Initialize()
     {
-        print("PactRoom");
+        //print("PactRoom");
     }
 
     public override void OnEnter()
     {
-        print("Entered Pact");
+        //print("Entered Pact");
         //ExplorationManager.GetInstance().Advance();
     }
 
     public override void OnExit()
     {
         base.OnExit();
-        print("Exited Pact");
+        //print("Exited Pact");
     }
 
     public override RoomType GetRoomType()

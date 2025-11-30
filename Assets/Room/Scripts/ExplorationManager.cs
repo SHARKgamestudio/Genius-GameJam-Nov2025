@@ -104,26 +104,26 @@ public sealed class ExplorationManager : MonoBehaviour
                 case RoomType.COMBAT:
                     room = Instantiate(combatPrefab);
                     room.GetComponent<CombatRoom>().roomNumber = lastRoomNumber;
-                    if (lastRoomNumber == 1)
+                    if (lastRoomNumber > 3 && lastRoomNumber < 5)
                     {
-                        this.GetComponent<CombatRoom>().GetComponent<SpriteRenderer>().sprite = spriteCombatRoom2;
+                        room.GetComponent<SpriteRenderer>().sprite = spriteCombatRoom2;
                     }
-                    else if (lastRoomNumber == 2)
+                    else if (lastRoomNumber >= 5)
                     {
-                        this.GetComponent<CombatRoom>().GetComponent<SpriteRenderer>().sprite = spriteCombatRoom3;
+                        room.GetComponent<SpriteRenderer>().sprite = spriteCombatRoom3;
                     }
                     break;
 
                 case RoomType.PACT:
                     room = Instantiate(pactPrefab);
                     room.GetComponent<PactRoom>().roomNumber = lastRoomNumber;
-                    if (lastRoomNumber == 1)
+                    if (lastRoomNumber > 3 && lastRoomNumber < 3)
                     {
-                        this.GetComponent<PactRoom>().GetComponent<SpriteRenderer>().sprite = spritePactRoom2;
+                        room.GetComponent<SpriteRenderer>().sprite = spritePactRoom2;
                     }
-                    else if (lastRoomNumber == 2)
+                    else if (lastRoomNumber >= 5)
                     {
-                        this.GetComponent<PactRoom>().GetComponent<SpriteRenderer>().sprite = spritePactRoom3;
+                        room.GetComponent<SpriteRenderer>().sprite = spritePactRoom3;
                     }
                     break;
                 

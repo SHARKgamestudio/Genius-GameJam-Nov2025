@@ -59,7 +59,7 @@ public class EnemyStats : Stats
 
     float ScalingFunction(int floorNumber)
     {
-        return Mathf.Sqrt(floorNumber) * (floorNumber / 8f) + 1f;
+        return (Mathf.Sqrt(floorNumber) / 2.5f) + 1f;
     }
 
     public void ScaleStats(int floorNumber)

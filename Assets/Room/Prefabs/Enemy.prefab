@@ -511,9 +511,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 30
-  strength: 8
-  defense: 4
-  agility: 10
+  strength: 7
+  defense: 2
+  agility: 6
   maxFactorValue: 50
   totalRandomizedValues: 0
   roomLuck: 0

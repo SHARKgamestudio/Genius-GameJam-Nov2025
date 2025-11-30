@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Xml;
-using Unity.Android.Gradle.Manifest;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -128,11 +127,11 @@ public class PactGenerator : MonoBehaviour
                 case PlaceholderStatType.Luck:
                     if (effect.effectType == PlaceholderEffectType.Buff)
                     {
-                        stats.AddLuck(effect.value);
+                        stats.AddLuck(effect.value / 100f);
                     }
                     else
                     {
-                        stats.ReduceLuck(effect.value);
+                        stats.ReduceLuck(effect.value / 100f);
                     }
                     break;
                 case PlaceholderStatType.Heal:
@@ -154,10 +153,10 @@ public class PactGenerator : MonoBehaviour
                                 float sums = stats.GetSumsOfStats();
                                 sums *= effect.value;
 
-                                float w1 = Random.Range(1.0f,2.0f);
-                                float w2 = Random.Range(1.0f, 2.0f);
-                                float w3 = Random.Range(1.0f, 2.0f);
-                                float w4 = Random.Range(1.0f, 2.0f);
+                                float w1 = UnityEngine.Random.Range(1.0f,2.0f);
+                                float w2 = UnityEngine.Random.Range(1.0f, 2.0f);
+                                float w3 = UnityEngine.Random.Range(1.0f, 2.0f);
+                                float w4 = UnityEngine.Random.Range(1.0f, 2.0f);
 
                                 float sum = w1 + w2 + w3 + w4;
 

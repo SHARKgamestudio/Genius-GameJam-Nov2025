@@ -1,5 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &971135105456350368
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4255078481630906511}
+  - component: {fileID: 8174883135658506316}
+  m_Layer: 0
+  m_Name: AnimationQueueEnemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4255078481630906511
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971135105456350368}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -27.12364, y: 0, z: -6.52571}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1940468125233161387}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8174883135658506316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971135105456350368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 035293ae966defc43ac5983c50e47c1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1059204774102558020
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,6 +403,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4255078481630906511}
   - {fileID: 3905468697596603713}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -380,6 +425,7 @@ MonoBehaviour:
   agility: 7
   maxFactorValue: 50
   totalRandomizedValues: 0
+  roomLuck: 0
 --- !u!114 &4469005397833202476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,6 +438,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17661997762b8974a8e369d43283f530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  queue: {fileID: 8174883135658506316}
+  attackTime: 0.25
+  receiveDamageTime: 0.25
+  dieTime: 0.25
 --- !u!212 &6398069224364216622
 SpriteRenderer:
   m_ObjectHideFlags: 0

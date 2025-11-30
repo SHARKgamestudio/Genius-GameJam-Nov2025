@@ -1,21 +1,29 @@
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 public class FightingPlayer : FightingScript
 {   
-    public override float Attack()
+    protected override void AddAttackAnimationToQueue()
     {
-        // TODO :: lauch Attack animation
-        return 0.25f;// animation time 
+        GameObject currentRoom = GameManager.Instance.explorationManager.GetRoom();
+        Vector3 targetPositon = (currentRoom.GetComponent<Room>() as CombatRoom).GetEnemy().transform.position;
+        Transform selfTransform = GameManager.Instance.playerManager.transform;
+        Vector3 currentPosition = selfTransform.position;
+        queue.EnqueueAnimation(new AnimationItem(() => MoveOverTime(selfTransform, targetPositon, attackTime * 0.5f)));
+        queue.EnqueueAnimation(new AnimationItem(() => MoveOverTime(selfTransform, currentPosition, attackTime * 0.5f)));
     }
 
-    public override float Die()
+    protected override void AddReceiveDamageAnimationToQueue()
     {
-        // TODO :: launch Die animation
-        return 0.25f;// animation time 
+        SpriteRenderer selfSprite = GameManager.Instance.playerManager.GetComponent<SpriteRenderer>();
+        Color currentColor = selfSprite.color;
+        queue.EnqueueAnimation(new AnimationItem(() => ChangeColor(selfSprite, Color.darkRed, receiveDamageTime * 0.8f)));
+        queue.EnqueueAnimation(new AnimationItem(() => ChangeColor(selfSprite, currentColor, receiveDamageTime * 0.2f)));
     }
 
-    public override float ReceiveDamage()
+    protected override void AddDieAnimationToQueue()
     {
-        // TODO :: lauch ReceiveDamage animation
-        return 0.25f; // animation time 
+        SpriteRenderer selfSprite = GameManager.Instance.playerManager.GetComponent<SpriteRenderer>();
+        queue.EnqueueAnimation(new AnimationItem(() => BlinkSprite(selfSprite, dieTime, dieTime * 0.05f)));
     }
+
 }

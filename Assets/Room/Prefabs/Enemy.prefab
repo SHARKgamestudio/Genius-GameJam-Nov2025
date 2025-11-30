@@ -680,8 +680,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4cc2b8c56fbe044fa722e0200fef875, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthbar: {fileID: 0}
-  rechargebar: {fileID: 0}
+  healthbar: {fileID: 5479242812257193282}
+  rechargebar: {fileID: 7443234120560327050}
 --- !u!1 &5788352896762592513
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using System.Xml;
+using Unity.Android.Gradle.Manifest;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PactGenerator : MonoBehaviour
 {
@@ -11,144 +14,139 @@ public class PactGenerator : MonoBehaviour
     PlayerMover mover;
 
     [ContextMenu("Test GeneratePacts")]
-    public void ChoosePact()
+
+    public void ApplyPact(PactData pact)
     {
-        uiRoot.gameObject.SetActive(true);
-        uiRoot.In();
-
-        PactData[] generated = GeneratePacts();
-        pactUI.GenerateCards(generated, (PactData pact) =>
+        if (pact.unique == true)
         {
-            if(pact.unique == true)
-            {
-                pacts.Remove(pact.type);
-            }
+            pacts.Remove(pact.type);
+        }
 
-            PlayerPactStack.Instance.pactStack.Add(pact);
-            GameManager.Instance.explorationManager.WalkTowardsNextDoor();
-            GameManager.Instance.playerManager.GetSystem<PlayerStats>(out PlayerStats stats);
-            foreach (var effect in pact.effects)
+        PlayerPactStack.Instance.pactStack.Add(pact);
+        GameManager.Instance.explorationManager.WalkTowardsNextDoor();
+        GameManager.Instance.playerManager.GetSystem<PlayerStats>(out PlayerStats stats);
+        foreach (var effect in pact.effects)
+        {
+            switch (effect.affectedStat)
             {
-                switch(effect.affectedStat)
-                {
-                    case PlaceholderStatType.Agility:
-                        if (effect.affectType == PlaceholderStatAffectType.Percent)
-                        {
-                            if (effect.effectType == PlaceholderEffectType.Buff)
-                            {
-                                stats.AddAgilityPourcentage(effect.value / 100.0f);
-                            }
-                            else
-                            {
-                                stats.ReduceAgilityPourcentage(effect.value / 100.0f);
-                            }
-                        }
-                        else
-                        {
-                            if (effect.effectType == PlaceholderEffectType.Buff)
-                            {
-                                stats.AddAgility(effect.value);
-                            }
-                            else
-                            {
-                                stats.ReduceAgility(effect.value);
-                            }
-                        }
-                        break;
-                    case PlaceholderStatType.Strength:
-                        if (effect.affectType == PlaceholderStatAffectType.Percent)
-                        {
-                            if (effect.effectType == PlaceholderEffectType.Buff)
-                            {
-                                stats.AddStrengthPourcentage(effect.value / 100.0f);
-                            }
-                            else
-                            {
-                                stats.ReduceStrengthPourcentage(effect.value / 100.0f);
-                            }
-                        }
-                        else
-                        {
-                            if (effect.effectType == PlaceholderEffectType.Buff)
-                            {
-                                stats.AddStrength(effect.value);
-                            }
-                            else
-                            {
-                                stats.ReduceStrength(effect.value);
-                            }
-                        }
-                        break;
-                    case PlaceholderStatType.Defense:
-                        if (effect.affectType == PlaceholderStatAffectType.Percent)
-                        {
-                            if (effect.effectType == PlaceholderEffectType.Buff)
-                            {
-                                stats.AddDefensePourcentage(effect.value / 100.0f);
-                            }
-                            else
-                            {
-                                stats.ReduceDefensePourcentage(effect.value / 100.0f);
-                            }
-                        }
-                        else
-                        {
-                            if (effect.effectType == PlaceholderEffectType.Buff)
-                            {
-                                stats.AddDefense(effect.value);
-                            }
-                            else
-                            {
-                                stats.ReduceDefense(effect.value);
-                            }
-                        }
-                        break;
-                    case PlaceholderStatType.Health:
-                        if(effect.affectType == PlaceholderStatAffectType.Percent)
-                        {
-                            if(effect.effectType == PlaceholderEffectType.Buff)
-                            {
-                                stats.AddMaxLifePourcentage(effect.value / 100.0f);
-                            }
-                            else
-                            {
-                                stats.LowerMaxLife(effect.value / 100.0f);
-                            }
-                        }
-                        else
-                        {
-                            if (effect.effectType == PlaceholderEffectType.Buff)
-                            {
-                                stats.AddMaxLife(effect.value);
-                            }
-                            else
-                            {
-                                stats.ReduceMaxLife(effect.value);
-                            }
-                        }
-                        break;
-                    case PlaceholderStatType.Luck:
+                case PlaceholderStatType.Agility:
+                    if (effect.affectType == PlaceholderStatAffectType.Percent)
+                    {
                         if (effect.effectType == PlaceholderEffectType.Buff)
                         {
-                            stats.AddLuck(effect.value / 100);
+                            stats.AddAgilityPourcentage(effect.value / 100.0f);
                         }
                         else
                         {
-                            stats.ReduceLuck(effect.value / 100);
+                            stats.ReduceAgilityPourcentage(effect.value / 100.0f);
                         }
-                        break;
-                    case PlaceholderStatType.Heal:
-                        if(effect.affectType == PlaceholderStatAffectType.Percent)
+                    }
+                    else
+                    {
+                        if (effect.effectType == PlaceholderEffectType.Buff)
                         {
-                            if(effect.effectType == PlaceholderEffectType.Buff)
-                                stats.Heal(stats.maxLife * effect.value / 100f);
+                            stats.AddAgility(effect.value);
                         }
                         else
                         {
-                            if (effect.effectType == PlaceholderEffectType.Buff)
-                                stats.Heal(effect.value);
+                            stats.ReduceAgility(effect.value);
                         }
-                        break;
+                    }
+                    break;
+                case PlaceholderStatType.Strength:
+                    if (effect.affectType == PlaceholderStatAffectType.Percent)
+                    {
+                        if (effect.effectType == PlaceholderEffectType.Buff)
+                        {
+                            stats.AddStrengthPourcentage(effect.value / 100.0f);
+                        }
+                        else
+                        {
+                            stats.ReduceStrengthPourcentage(effect.value / 100.0f);
+                        }
+                    }
+                    else
+                    {
+                        if (effect.effectType == PlaceholderEffectType.Buff)
+                        {
+                            stats.AddStrength(effect.value);
+                        }
+                        else
+                        {
+                            stats.ReduceStrength(effect.value);
+                        }
+                    }
+                    break;
+                case PlaceholderStatType.Defense:
+                    if (effect.affectType == PlaceholderStatAffectType.Percent)
+                    {
+                        if (effect.effectType == PlaceholderEffectType.Buff)
+                        {
+                            stats.AddDefensePourcentage(effect.value / 100.0f);
+                        }
+                        else
+                        {
+                            stats.ReduceDefensePourcentage(effect.value / 100.0f);
+                        }
+                    }
+                    else
+                    {
+                        if (effect.effectType == PlaceholderEffectType.Buff)
+                        {
+                            stats.AddDefense(effect.value);
+                        }
+                        else
+                        {
+                            stats.ReduceDefense(effect.value);
+                        }
+                    }
+                    break;
+                case PlaceholderStatType.Health:
+                    if (effect.affectType == PlaceholderStatAffectType.Percent)
+                    {
+                        if (effect.effectType == PlaceholderEffectType.Buff)
+                        {
+                            stats.AddMaxLifePourcentage(effect.value / 100.0f);
+                        }
+                        else
+                        {
+                            stats.LowerMaxLife(effect.value / 100.0f);
+                        }
+                    }
+                    else
+                    {
+                        if (effect.effectType == PlaceholderEffectType.Buff)
+                        {
+                            stats.AddMaxLife(effect.value);
+                        }
+                        else
+                        {
+                            stats.ReduceMaxLife(effect.value);
+                        }
+                    }
+                    break;
+                case PlaceholderStatType.Luck:
+                    if (effect.effectType == PlaceholderEffectType.Buff)
+                    {
+                        stats.AddLuck(effect.value);
+                    }
+                    else
+                    {
+                        stats.ReduceLuck(effect.value);
+                    }
+                    break;
+                case PlaceholderStatType.Heal:
+                    if(effect.affectType == PlaceholderStatAffectType.Percent)
+                    {
+                        if(effect.effectType == PlaceholderEffectType.Buff)
+                            stats.Heal(stats.maxLife * effect.value / 100f);
+                    }
+                    else
+                    {
+                        if (effect.effectType == PlaceholderEffectType.Buff)
+                            stats.Heal(effect.value);
+                    }
+                    break;
                     case PlaceholderStatType.Custom:
                         switch (effect.type.customDesc)
                         {
@@ -190,19 +188,78 @@ public class PactGenerator : MonoBehaviour
 
                                 break;
                         }
-                        break;
-                    case PlaceholderStatType.None:
-                        break;
-                }
-            }
 
-            uiRoot.Out();
-            uiRoot.OnOutEnd += () =>
-            {
-                uiRoot.gameObject.SetActive(false);
-                uiRoot.OnOutEnd = null;
-            };
-        });
+                        switch (pact.type.name)
+                        {
+                            case "Double Down":
+                                PlayerPactStack stack;
+                                GameManager.Instance.playerManager.GetSystem<PlayerPactStack>(out stack);
+                                int pactAmount = stack.pactStack.Count;
+                                for(int i = 0; i < pactAmount; i++)
+                                {
+                                    if (stack.pactStack[i].unique == true)
+                                        continue;
+                                    ApplyPact(stack.pactStack[i]);
+                                }
+
+                                break;
+
+                            case "Redistribute":
+                                // Get score and set it to 0
+                                int score = GameManager.Instance.GetScore();
+                                GameManager.Instance.AddToScore(-score);
+
+                                List<float> thresholds = new List<float>();
+                                for (int i = 0; i < 4; i++)
+                                {
+                                    thresholds.Add(UnityEngine.Random.value);
+                                }
+                                thresholds.Sort();
+
+                                float lifePercent = thresholds[0];
+                                float strengthPercent = thresholds[1] - thresholds[0];
+                                float agilityPercent = thresholds[2] - thresholds[1];
+                                float defensePercent = thresholds[3] - thresholds[2];
+                                float luckPercent = 1 - thresholds[3];
+                                stats.AddMaxLife(lifePercent * score * (1f / 2f));
+                                stats.AddStrength(strengthPercent * score * (1f / 10f));
+                                stats.AddAgility(agilityPercent * score * (1f / 10f));
+                                stats.AddDefense(defensePercent * score * (1f / 15f));
+                                stats.AddLuck(luckPercent * score * (1f / 1000f));
+
+                                break;
+
+                            case "Brambles":
+                                stats.hasThorns = true;
+
+                                break;
+
+                            case "Dual Wield":
+                                GameManager.Instance.fightingManager.doubleHit = true;
+
+                                break;
+                        }
+                        break;
+                case PlaceholderStatType.None:
+                    break;
+            }
+        }
+        
+        uiRoot.Out();
+        uiRoot.OnOutEnd += () =>
+        {
+            uiRoot.gameObject.SetActive(false);
+            uiRoot.OnOutEnd = null;
+        };
+    }
+
+    public void ChoosePact()
+    {
+        uiRoot.gameObject.SetActive(true);
+        uiRoot.In();
+
+        PactData[] generated = GeneratePacts();
+        pactUI.GenerateCards(generated, (PactData pact) => ApplyPact(pact));
     }
 
     void Start()
@@ -308,7 +365,7 @@ public class PactGenerator : MonoBehaviour
                 total += array[i].rng;
         }
 
-        float rand = Random.value * total;
+        float rand = UnityEngine.Random.value * total;
 
         // Run weighted selection
         for (int i = 0; i < array.Count; i++)

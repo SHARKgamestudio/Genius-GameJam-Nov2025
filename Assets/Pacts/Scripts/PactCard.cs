@@ -115,10 +115,10 @@ public class PactCard : MonoBehaviour
         {
             SpawnEffectItem(effect, effect.effectType);
 
-            //if(effect.affectedStat == PlaceholderStatType.Custom)
-            //{
-            //    boundPact.unique = true;
-            //}
+            if (effect.affectedStat == PlaceholderStatType.Custom)
+            {
+                boundPact.unique = true;
+            }
         }
 
         // Register click event

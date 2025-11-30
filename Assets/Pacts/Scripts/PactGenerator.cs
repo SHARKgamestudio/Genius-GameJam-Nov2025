@@ -1,8 +1,10 @@
+using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
 
 public class PactGenerator : MonoBehaviour
 {
-    [SerializeField] Pact[] pacts;
+    [SerializeField] List<Pact> pacts;
     [SerializeField] PactUI pactUI;
     [SerializeField] AlphaTweening uiRoot;
 
@@ -17,6 +19,11 @@ public class PactGenerator : MonoBehaviour
         PactData[] generated = GeneratePacts();
         pactUI.GenerateCards(generated, (PactData pact) =>
         {
+            if(pact.unique == true)
+            {
+                pacts.Remove(pact.type);
+            }
+
             PlayerPactStack.Instance.pactStack.Add(pact);
             GameManager.Instance.explorationManager.WalkTowardsNextDoor();
             GameManager.Instance.playerManager.GetSystem<PlayerStats>(out PlayerStats stats);
@@ -186,6 +193,12 @@ public class PactGenerator : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
+            PlayerStats stats;
+            GameManager.Instance.playerManager.GetSystem<PlayerStats>(out stats);
+            float playerLuck = stats.luck * 100;
+            float roomLuck = GameManager.Instance.explorationManager.GetRoom().GetComponent<Room>().luckModifier * 100;
+            float totalLuck = Mathf.Min(playerLuck + roomLuck, 100);
+
             int index = ChooseWeightedIndexAvoidDuplicates(pacts, chosenIndexes, chosenCount);
             chosenIndexes[chosenCount] = index;
             chosenCount++;
@@ -212,7 +225,8 @@ public class PactGenerator : MonoBehaviour
                 data.effectType = PlaceholderEffectType.Buff;
                 data.affectedStat = effect.statType;
                 data.affectType = effect.affectType;
-                data.value = Random.Range(effect.minValue, effect.maxValue);
+                data.value = RandomUtils.weightedRandomRangeFloat(effect.minValue, effect.maxValue, totalLuck, true);
+                //data.value = Random.Range(effect.minValue, effect.maxValue);
 
                 pactData.effects[j] = data;
             }
@@ -228,7 +242,8 @@ public class PactGenerator : MonoBehaviour
                 data.effectType = PlaceholderEffectType.Debuff;
                 data.affectedStat = effect.statType;
                 data.affectType = effect.affectType;
-                data.value = Random.Range(effect.minValue, effect.maxValue);
+                data.value = RandomUtils.weightedRandomRangeFloat(effect.minValue, effect.maxValue, totalLuck, false);
+                //data.value = Random.Range(effect.minValue, effect.maxValue);
 
                 pactData.effects[buffCount + j] = data;
             }
@@ -239,11 +254,11 @@ public class PactGenerator : MonoBehaviour
         return result;
     }
 
-    private int ChooseWeightedIndexAvoidDuplicates(Pact[] array, int[] used, int usedCount)
+    private int ChooseWeightedIndexAvoidDuplicates(List<Pact> array, int[] used, int usedCount)
     {
         // Compute total weight of *unpicked* items
         float total = 0f;
-        for (int i = 0; i < array.Length; i++)
+        for (int i = 0; i < array.Count; i++)
         {
             if (!IsUsed(i, used, usedCount))
                 total += array[i].rng;
@@ -252,7 +267,7 @@ public class PactGenerator : MonoBehaviour
         float rand = Random.value * total;
 
         // Run weighted selection
-        for (int i = 0; i < array.Length; i++)
+        for (int i = 0; i < array.Count; i++)
         {
             if (IsUsed(i, used, usedCount))
                 continue;
@@ -263,7 +278,7 @@ public class PactGenerator : MonoBehaviour
         }
 
         // Fallback
-        for (int i = array.Length - 1; i >= 0; i--)
+        for (int i = array.Count - 1; i >= 0; i--)
             if (!IsUsed(i, used, usedCount))
                 return i;
 

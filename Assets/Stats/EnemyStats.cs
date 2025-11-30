@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Unity.Burst;
+using UnityEngine;
 
 public class EnemyStats : Stats
 {
@@ -11,50 +12,6 @@ public class EnemyStats : Stats
     {
         amount -= defense;
         base.TakeDamage(amount);
-    }
-
-    int weightedRandomRange(int minimum, int maximum, float luck, bool weightMaximum, int detail = 100)
-    {
-        int size = maximum - minimum;
-        int midSize = size / 2;
-
-        float multipliedLuck = luck * detail / 100;
-
-        // By default, luck is equal to 50
-        Dictionary<int, int> weightedRange = new Dictionary<int, int>();
-        int totalWeight = 0;
-
-        // 55 luck would mean having the rarest element at a weight 55
-        // and opposite at 45
-
-        for (int i = 0; i < size; i++)
-        {
-            int weight;
-            if (weightMaximum)
-            {
-                weight = (int)Mathf.Round((multipliedLuck) * (i) / size + (detail - multipliedLuck ) * (size - i) / size);
-            }
-            else
-            {
-                weight = (int)Mathf.Round((multipliedLuck) * (size - i) / size + (detail - multipliedLuck) * i / size);
-            }
-            weightedRange[i] = weight;
-            totalWeight += weight;
-        }
-
-        float rand = UnityEngine.Random.value;
-
-        int currentWeight = 0;
-        for (int i = 0; i < size; i++)
-        {
-            currentWeight += weightedRange[i];
-            if (rand < (float)currentWeight / (float)totalWeight)
-            {
-                return minimum + i;
-            }
-        }
-
-        return -1;
     }
 
     float ScalingFunction(int floorNumber)
@@ -69,13 +26,13 @@ public class EnemyStats : Stats
         float playerLuck = stats.luck * 100;
 
         totalRandomizedValues = 0;
-        int randLifeFactor = weightedRandomRange(0, maxFactorValue, playerLuck + roomLuck, true);
+        int randLifeFactor = RandomUtils.weightedRandomRange(0, maxFactorValue, playerLuck + roomLuck, true);
         totalRandomizedValues += randLifeFactor;
-        int randStrengthFactor = weightedRandomRange(0, maxFactorValue, playerLuck + roomLuck, true);
+        int randStrengthFactor = RandomUtils.weightedRandomRange(0, maxFactorValue, playerLuck + roomLuck, true);
         totalRandomizedValues += randStrengthFactor;
-        int randDefenseFactor = weightedRandomRange(0, maxFactorValue, playerLuck + roomLuck, true);
+        int randDefenseFactor = RandomUtils.weightedRandomRange(0, maxFactorValue, playerLuck + roomLuck, true);
         totalRandomizedValues += randDefenseFactor;
-        int randAgilityFactor = weightedRandomRange(0, maxFactorValue, playerLuck + roomLuck, true);
+        int randAgilityFactor = RandomUtils.weightedRandomRange(0, maxFactorValue, playerLuck + roomLuck, true);
         totalRandomizedValues += randAgilityFactor;
         life *= (1.0f + (randLifeFactor - maxFactorValue / 2f) / 100f) * ScalingFunction(floorNumber);
         strength *= (1.0f + (randStrengthFactor - maxFactorValue / 2f) / 100f) * ScalingFunction(floorNumber);

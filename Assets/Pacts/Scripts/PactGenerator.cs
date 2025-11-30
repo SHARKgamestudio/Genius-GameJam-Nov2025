@@ -170,6 +170,12 @@ public class PactGenerator : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
+            PlayerStats stats;
+            GameManager.Instance.playerManager.GetSystem<PlayerStats>(out stats);
+            float playerLuck = stats.luck * 100;
+            float roomLuck = GameManager.Instance.explorationManager.GetRoom().GetComponent<Room>().luckModifier * 100;
+            float totalLuck = Mathf.Min(playerLuck + roomLuck, 100);
+
             int index = ChooseWeightedIndexAvoidDuplicates(pacts, chosenIndexes, chosenCount);
             chosenIndexes[chosenCount] = index;
             chosenCount++;
@@ -196,7 +202,8 @@ public class PactGenerator : MonoBehaviour
                 data.effectType = PlaceholderEffectType.Buff;
                 data.affectedStat = effect.statType;
                 data.affectType = effect.affectType;
-                data.value = Random.Range(effect.minValue, effect.maxValue);
+                data.value = RandomUtils.weightedRandomRangeFloat(effect.minValue, effect.maxValue, totalLuck, true);
+                //data.value = Random.Range(effect.minValue, effect.maxValue);
 
                 pactData.effects[j] = data;
             }
@@ -212,7 +219,8 @@ public class PactGenerator : MonoBehaviour
                 data.effectType = PlaceholderEffectType.Debuff;
                 data.affectedStat = effect.statType;
                 data.affectType = effect.affectType;
-                data.value = Random.Range(effect.minValue, effect.maxValue);
+                data.value = RandomUtils.weightedRandomRangeFloat(effect.minValue, effect.maxValue, totalLuck, false);
+                //data.value = Random.Range(effect.minValue, effect.maxValue);
 
                 pactData.effects[buffCount + j] = data;
             }

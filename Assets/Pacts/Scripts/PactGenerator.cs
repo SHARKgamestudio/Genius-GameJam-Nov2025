@@ -17,19 +17,84 @@ public class PactGenerator : MonoBehaviour
         {
             PlayerPactStack.Instance.pactStack.Add(pact);
             GameManager.Instance.explorationManager.WalkTowardsNextDoor();
-
+            GameManager.Instance.playerManager.GetSystem<PlayerStats>(out PlayerStats stats);
             foreach (var effect in pact.effects)
             {
                 switch(effect.affectedStat)
                 {
                     case PlaceholderStatType.Agility:
+                        if (effect.affectType == PlaceholderStatAffectType.Percent)
+                        {
+                            if (effect.effectType == PlaceholderEffectType.Buff)
+                            {
+                                stats.AddAgilityPourcentage(effect.value / 100.0f);
+                            }
+                            else
+                            {
+                                stats.ReduceAgilityPourcentage(effect.value / 100.0f);
+                            }
+                        }
+                        else
+                        {
+                            if (effect.effectType == PlaceholderEffectType.Buff)
+                            {
+                                stats.AddAgility(effect.value);
+                            }
+                            else
+                            {
+                                stats.ReduceAgility(effect.value);
+                            }
+                        }
                         break;
                     case PlaceholderStatType.Strength:
+                        if (effect.affectType == PlaceholderStatAffectType.Percent)
+                        {
+                            if (effect.effectType == PlaceholderEffectType.Buff)
+                            {
+                                stats.AddStrengthPourcentage(effect.value / 100.0f);
+                            }
+                            else
+                            {
+                                stats.ReduceStrengthPourcentage(effect.value / 100.0f);
+                            }
+                        }
+                        else
+                        {
+                            if (effect.effectType == PlaceholderEffectType.Buff)
+                            {
+                                stats.AddStrength(effect.value);
+                            }
+                            else
+                            {
+                                stats.ReduceStrength(effect.value);
+                            }
+                        }
                         break;
                     case PlaceholderStatType.Defense:
+                        if (effect.affectType == PlaceholderStatAffectType.Percent)
+                        {
+                            if (effect.effectType == PlaceholderEffectType.Buff)
+                            {
+                                stats.AddDefensePourcentage(effect.value / 100.0f);
+                            }
+                            else
+                            {
+                                stats.ReduceDefensePourcentage(effect.value / 100.0f);
+                            }
+                        }
+                        else
+                        {
+                            if (effect.effectType == PlaceholderEffectType.Buff)
+                            {
+                                stats.AddDefense(effect.value);
+                            }
+                            else
+                            {
+                                stats.ReduceDefense(effect.value);
+                            }
+                        }
                         break;
                     case PlaceholderStatType.Health:
-                        GameManager.Instance.playerManager.GetSystem<PlayerStats>(out PlayerStats stats);
                         if(effect.affectType == PlaceholderStatAffectType.Percent)
                         {
                             if(effect.effectType == PlaceholderEffectType.Buff)
@@ -54,6 +119,14 @@ public class PactGenerator : MonoBehaviour
                         }
                         break;
                     case PlaceholderStatType.Luck:
+                        if (effect.effectType == PlaceholderEffectType.Buff)
+                        {
+                            stats.AddLuck(effect.value);
+                        }
+                        else
+                        {
+                            stats.ReduceLuck(effect.value);
+                        }
                         break;
                     case PlaceholderStatType.None:
                         break;

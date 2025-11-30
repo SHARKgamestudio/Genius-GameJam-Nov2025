@@ -16,9 +16,10 @@ public class PlayerStats : Stats
 
     public override void TakeDamage(float amount)
     {
-        GameManager.Instance.playerManager.GetSystem<PlayerPactStack>(out PlayerPactStack stack);
-        float newDefense = stack.ApplyEffectTo(defense, PlaceholderStatType.Defense);
-        float newStrength = amount - newDefense;
+        //GameManager.Instance.playerManager.GetSystem<PlayerPactStack>(out PlayerPactStack stack);
+        //float newDefense = stack.ApplyEffectTo(defense, PlaceholderStatType.Defense);
+        //float newStrength = amount - newDefense;
+        float newStrength = amount - defense;
         base.TakeDamage(newStrength);
     }
 
@@ -141,32 +142,5 @@ public class PlayerStats : Stats
         agility -= (float)(agility * pourcentage);
         if (agility < 0)
             agility = 0;
-    }
-
-    void Update()
-    {
-
-        //AddMaxLife(20);
-        //AddStrength(20);
-        //AddLuck(0.2f);
-        //AddDefense(20);
-        //AddAgility(20);
-
-        //ReduceStrengthPourcentage(1f);
-        //ReduceDefensePourcentage(1f);
-        //ReduceAgilityPourcentage(1f);
-        //LowerMaxLife(1f);
-
-        //AddMaxLifePourcentage(0.5f);
-        //AddStrengthPourcentage(0.5f);
-        //AddDefensePourcentage(0.5f);
-        //AddAgilityPourcentage(0.5f);
-
-        //ReduceAgility (140);
-        //ReduceDefense(140);
-        //ReduceLuck(140);
-        //ReduceMaxLife(140);
-        //ReduceStrength(140);
-
     }
 }

@@ -38,6 +38,7 @@ public struct PactData
 {
     public Pact type;
     public EffectData[] effects;
+    public bool unique;
 }
 
 [System.Serializable]

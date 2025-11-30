@@ -1,8 +1,10 @@
+using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
 
 public class PactGenerator : MonoBehaviour
 {
-    [SerializeField] Pact[] pacts;
+    [SerializeField] List<Pact> pacts;
     [SerializeField] PactUI pactUI;
 
     PlayerMover mover;
@@ -13,6 +15,11 @@ public class PactGenerator : MonoBehaviour
         PactData[] generated = GeneratePacts();
         pactUI.GenerateCards(generated, (PactData pact) =>
         {
+            if(pact.unique == true)
+            {
+                pacts.Remove(pact.type);
+            }
+
             PlayerPactStack.Instance.pactStack.Add(pact);
             GameManager.Instance.explorationManager.WalkTowardsNextDoor();
             GameManager.Instance.playerManager.GetSystem<PlayerStats>(out PlayerStats stats);
@@ -216,11 +223,11 @@ public class PactGenerator : MonoBehaviour
         return result;
     }
 
-    private int ChooseWeightedIndexAvoidDuplicates(Pact[] array, int[] used, int usedCount)
+    private int ChooseWeightedIndexAvoidDuplicates(List<Pact> array, int[] used, int usedCount)
     {
         // Compute total weight of *unpicked* items
         float total = 0f;
-        for (int i = 0; i < array.Length; i++)
+        for (int i = 0; i < array.Count; i++)
         {
             if (!IsUsed(i, used, usedCount))
                 total += array[i].rng;
@@ -229,7 +236,7 @@ public class PactGenerator : MonoBehaviour
         float rand = Random.value * total;
 
         // Run weighted selection
-        for (int i = 0; i < array.Length; i++)
+        for (int i = 0; i < array.Count; i++)
         {
             if (IsUsed(i, used, usedCount))
                 continue;
@@ -240,7 +247,7 @@ public class PactGenerator : MonoBehaviour
         }
 
         // Fallback
-        for (int i = array.Length - 1; i >= 0; i--)
+        for (int i = array.Count - 1; i >= 0; i--)
             if (!IsUsed(i, used, usedCount))
                 return i;
 

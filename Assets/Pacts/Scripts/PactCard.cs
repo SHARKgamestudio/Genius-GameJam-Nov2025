@@ -32,6 +32,11 @@ public class PactCard : MonoBehaviour
         foreach (var effect in pact.effects)
         {
             SpawnEffectItem(effect, effect.effectType);
+
+            //if(effect.affectedStat == PlaceholderStatType.Custom)
+            //{
+            //    boundPact.unique = true;
+            //}
         }
 
         // Register click event

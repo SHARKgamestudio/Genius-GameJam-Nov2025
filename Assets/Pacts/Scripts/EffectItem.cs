@@ -8,8 +8,12 @@ public class EffectItem : MonoBehaviour
     [SerializeField] Text effectTypeText;
     [SerializeField] Text effectValueText;
 
-    public void Initialize(EffectData effect, PlaceholderEffectType type)
+    public void Initialize(EffectData effect, PlaceholderEffectType type, Color textColor)
     {
+        effectTitleText.color = textColor;
+        effectTypeText.color = textColor;
+        effectValueText.color = textColor;
+
         if (effect.affectedStat == PlaceholderStatType.Custom)
         {
             effectTitleText.text = effect.type.customDesc;

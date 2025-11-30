@@ -15,6 +15,9 @@ public class CombatRoom : Room
     {
         GameObject newEnemy = Instantiate(enemyPrefab);
         enemy = newEnemy;
+        enemy.GetComponent<EnemyStats>().roomLuck = luckModifier;
+        enemy.GetComponent<EnemyStats>().ScaleStats(roomNumber);
+        enemy.GetComponent<EnemyUI>().InitUI();
         enemy.transform.position = enemyPos;
     }
 

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e0fb8eb6df63e0b47bcefc89413be082, type: 3}
-  m_Name: StrengthPact
+  m_Name: StrengthPourcentPact
   m_EditorClassIdentifier: 
   name: Strength Pact
   description: Strength Pact Description
@@ -18,18 +18,14 @@ MonoBehaviour:
   buffs:
   - statType: 2
     affectType: 2
-    minValue: 0
-    maxValue: 100
+    minValue: 10
+    maxValue: 40
   debuffs:
   - statType: 1
     affectType: 2
-    minValue: 0
-    maxValue: 100
+    minValue: 10
+    maxValue: 30
   - statType: 3
     affectType: 2
-    minValue: 0
-    maxValue: 100
-  - statType: 4
-    affectType: 2
-    minValue: 0
-    maxValue: 100
+    minValue: 5
+    maxValue: 40

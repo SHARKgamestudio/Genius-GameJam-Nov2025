@@ -222,6 +222,7 @@ public class PactGenerator : MonoBehaviour
                 Effect effect = pact.buffs[j];
 
                 EffectData data = new EffectData();
+                data.type = effect;
                 data.effectType = PlaceholderEffectType.Buff;
                 data.affectedStat = effect.statType;
                 data.affectType = effect.affectType;
@@ -239,6 +240,7 @@ public class PactGenerator : MonoBehaviour
                 Effect effect = pact.debuffs[j];
 
                 EffectData data = new EffectData();
+                data.type = effect;
                 data.effectType = PlaceholderEffectType.Debuff;
                 data.affectedStat = effect.statType;
                 data.affectType = effect.affectType;

@@ -441,7 +441,7 @@ MonoBehaviour:
   queue: {fileID: 8174883135658506316}
   attackTime: 0.25
   receiveDamageTime: 0.25
-  dieTime: 0.25
+  dieTime: 1
 --- !u!212 &6398069224364216622
 SpriteRenderer:
   m_ObjectHideFlags: 0

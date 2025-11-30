@@ -23,7 +23,7 @@ public class FightingPlayer : FightingScript
     protected override void AddDieAnimationToQueue()
     {
         SpriteRenderer selfSprite = GameManager.Instance.playerManager.GetComponent<SpriteRenderer>();
-        queue.EnqueueAnimation(new AnimationItem(() => BlinkSprite(selfSprite, dieTime, dieTime * 0.05f)));
+        queue.EnqueueAnimation(new AnimationItem(() => BlinkSprite(selfSprite, dieTime, 10.0f)));
     }
 
 }

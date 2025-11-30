@@ -24,6 +24,6 @@ public class FightingEnemy : FightingScript
     {
         GameObject currentRoom = GameManager.Instance.explorationManager.GetRoom();
         SpriteRenderer selfSprite = (currentRoom.GetComponent<Room>() as CombatRoom).GetEnemy().GetComponent<SpriteRenderer>();
-        queue.EnqueueAnimation(new AnimationItem(() => BlinkSprite(selfSprite, dieTime, dieTime * 0.05f)));
+        queue.EnqueueAnimation(new AnimationItem(() => BlinkSprite(selfSprite, dieTime, 10.0f)));
     }
 }

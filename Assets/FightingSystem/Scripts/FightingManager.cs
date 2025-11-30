@@ -15,6 +15,8 @@ public class FightingManager : MonoBehaviour
     bool endFight = false;
     bool isAnimationGoing = false;
     float onGoingAnimationFrame = 0.0f;
+    public bool doubleHit = false;
+    bool secondHit = false;
 
     void Awake()
     {
@@ -104,12 +106,24 @@ public class FightingManager : MonoBehaviour
         if (playerTurn)
         {
             Debug.Log("Player attacks");
+
+            if (doubleHit && !secondHit) 
+            {
+                onGoingAnimationFrame = playerScript.Attack();
+                enemyScript.ReceiveDamage();
+
+                enemyStats.TakeDamage(playerStats.strength);
+                isAnimationGoing = true;
+                secondHit = true;
+                return;
+            }
+
             onGoingAnimationFrame = playerScript.Attack();
             enemyScript.ReceiveDamage();
-
             enemyStats.TakeDamage(playerStats.strength);
             playerPriority.DecreamentATB();
             isAnimationGoing = true;
+            secondHit = false;
         }
         else if (enemyTurn)
         {

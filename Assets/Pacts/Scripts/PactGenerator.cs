@@ -184,15 +184,20 @@ public class PactGenerator : MonoBehaviour
                 float defensePercent = thresholds[3] - thresholds[2];
                 float luckPercent = 1 - thresholds[3];
                 stats.AddMaxLife(lifePercent * score * (1f / 2f));
-                stats.AddStrength(strengthPercent * (float)score * (1f / 10f));
-                stats.AddAgility(agilityPercent * (float)score * (1f / 10f));
-                stats.AddDefense(defensePercent * (float)score * (1f / 15f));
-                stats.AddLuck(luckPercent * (float)score * (1f / 1000f));
+                stats.AddStrength(strengthPercent * score * (1f / 10f));
+                stats.AddAgility(agilityPercent * score * (1f / 10f));
+                stats.AddDefense(defensePercent * score * (1f / 15f));
+                stats.AddLuck(luckPercent * score * (1f / 1000f));
 
                 break;
 
             case "Brambles":
                 stats.hasThorns = true;
+
+                break;
+
+            case "Dual Wield":
+                GameManager.Instance.fightingManager.doubleHit = true;
 
                 break;
         }

@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0fb8eb6df63e0b47bcefc89413be082, type: 3}
   m_Name: LegendaryRedistribute
   m_EditorClassIdentifier: 
-  name: Brambles
-  description: Rare
-  rng: 0.25
+  name: Redistribute
+  description: Legendary
+  rng: 0.125
   buffs:
   - statType: 7
-    affectType: 1
-    customDesc: Each time you take damage, deal damage equal to defense.
+    affectType: 0
+    customDesc: Earn stats scaling with score.
     minValue: 4
     maxValue: 6
   debuffs:
-  - statType: 3
-    affectType: 2
-    customDesc: HALA LE POULET
+  - statType: 7
+    affectType: 0
+    customDesc: Resets score to 0.
     minValue: 80
     maxValue: 80

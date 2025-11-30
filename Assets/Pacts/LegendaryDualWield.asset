@@ -10,20 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e0fb8eb6df63e0b47bcefc89413be082, type: 3}
-  m_Name: RareBramblesPact
+  m_Name: LegendaryDualWield
   m_EditorClassIdentifier: 
-  name: Brambles
-  description: Rare
-  rng: 0.25
+  name: Strength Pact
+  description: Strength Pact Uncommon
+  rng: 0.5
   buffs:
-  - statType: 7
+  - statType: 2
     affectType: 1
-    customDesc: Returns mitigated damage.
-    minValue: 4
-    maxValue: 6
+    minValue: 6
+    maxValue: 12
   debuffs:
-  - statType: 3
+  - statType: 1
     affectType: 2
-    customDesc: HALA LE POULET
-    minValue: 80
-    maxValue: 80
+    minValue: 15
+    maxValue: 25

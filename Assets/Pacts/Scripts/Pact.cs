@@ -7,7 +7,8 @@ public enum PlaceholderStatType
     Strength,
     Defense,
     Agility,
-    Luck
+    Luck,
+    Heal
 }
 
 public enum PlaceholderStatAffectType

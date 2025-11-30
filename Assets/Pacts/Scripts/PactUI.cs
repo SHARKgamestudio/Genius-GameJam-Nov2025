@@ -7,6 +7,14 @@ public class PactUI : MonoBehaviour
     [SerializeField] GameObject pactSelectorPanel;
     [SerializeField] Button rerollButton;
 
+
+    RectTransform original;
+
+    void Start()
+    {
+        original = pactSelectorPanel.GetComponent<RectTransform>();
+    }
+
     public void ClearCards()
     {
         foreach (Transform child in pactSelectorPanel.transform)
@@ -28,6 +36,8 @@ public class PactUI : MonoBehaviour
 
     public void GenerateCards(PactData[] pacts, System.Action<PactData> onSelected)
     {
+        RectTransform temp = pactSelectorPanel.GetComponent<RectTransform>();
+        temp = original;
         ClearCards();
         foreach (PactData pact in pacts)
         {
@@ -47,8 +57,11 @@ public class PactUI : MonoBehaviour
                 ClearCards();
                 PactData[] pact = GameManager.Instance.pactManager.GeneratePacts(1);
                 SpawnCard(pact[0], onSelected);
+                RectTransform temp = pactSelectorPanel.GetComponent<RectTransform>();
+
+                temp.offsetMin = new Vector2(50, temp.offsetMin.y);
+                temp.offsetMax = new Vector2(-50, temp.offsetMax.y);
             }
         );
     }
-    
 }

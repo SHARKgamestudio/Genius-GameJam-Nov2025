@@ -130,6 +130,18 @@ public class PactGenerator : MonoBehaviour
                             stats.ReduceLuck(effect.value / 100);
                         }
                         break;
+                    case PlaceholderStatType.Heal:
+                        if(effect.affectType == PlaceholderStatAffectType.Percent)
+                        {
+                            if(effect.effectType == PlaceholderEffectType.Buff)
+                                stats.Heal(stats.maxLife * effect.value / 100f);
+                        }
+                        else
+                        {
+                            if (effect.effectType == PlaceholderEffectType.Buff)
+                                stats.Heal(effect.value);
+                        }
+                        break;
                     case PlaceholderStatType.None:
                         break;
                 }

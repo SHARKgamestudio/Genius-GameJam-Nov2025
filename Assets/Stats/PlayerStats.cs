@@ -7,6 +7,8 @@ public class PlayerStats : Stats
     [SerializeField][Min(0)] 
     public float maxLife;
 
+    public bool hasThorns = false;
+
     public void Heal(float amount)
     {
         life += amount;
@@ -18,6 +20,13 @@ public class PlayerStats : Stats
     {
         float newStrength = amount - defense;
         base.TakeDamage(newStrength);
+
+        if(hasThorns == true)
+        {
+            GameObject room = GameManager.Instance.explorationManager.GetRoom();
+            GameObject enemy = room.GetComponent<CombatRoom>().GetEnemy();
+            enemy.GetComponent<EnemyStats>().TakeDamage(defense);
+        }
     }
 
     public float GetLuck()

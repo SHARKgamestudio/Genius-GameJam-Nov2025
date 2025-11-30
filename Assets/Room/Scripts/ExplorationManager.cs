@@ -12,7 +12,7 @@ public sealed class ExplorationManager : MonoBehaviour
     GameObject rightRoom;
     Array roomTypeWeight;
     Dictionary<int, RoomType> roomTypeDictionary;
-    int lastRoomNumber = 0;
+    public int lastRoomNumber{ get; private set; } = 0;
     const int addedWeight = 1;
 
     private PlayerMover playerMover;

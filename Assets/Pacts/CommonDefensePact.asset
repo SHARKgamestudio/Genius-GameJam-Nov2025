@@ -21,11 +21,11 @@ MonoBehaviour:
     minValue: 3
     maxValue: 5
   debuffs:
-  - statType: 4
+  - statType: 5
     affectType: 1
-    minValue: 2
-    maxValue: 5
+    minValue: 0.05
+    maxValue: 0.1
   - statType: 2
     affectType: 1
     minValue: 1
-    maxValue: 4
+    maxValue: 3

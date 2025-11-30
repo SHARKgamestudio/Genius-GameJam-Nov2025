@@ -419,10 +419,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3bde6a431fd87b419146476b24826e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 20
-  strength: 5
-  defense: 2
-  agility: 7
+  life: 30
+  strength: 8
+  defense: 4
+  agility: 10
   maxFactorValue: 50
   totalRandomizedValues: 0
   roomLuck: 0

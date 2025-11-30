@@ -16,9 +16,6 @@ public class PlayerStats : Stats
 
     public override void TakeDamage(float amount)
     {
-        //GameManager.Instance.playerManager.GetSystem<PlayerPactStack>(out PlayerPactStack stack);
-        //float newDefense = stack.ApplyEffectTo(defense, PlaceholderStatType.Defense);
-        //float newStrength = amount - newDefense;
         float newStrength = amount - defense;
         base.TakeDamage(newStrength);
     }
@@ -45,13 +42,14 @@ public class PlayerStats : Stats
     public void AddMaxLife(float amount)
     {
         maxLife += amount;
+        Heal(amount);
     }
 
     public void ReduceMaxLife(float amount)
     {
         maxLife -= amount;
-        if(maxLife < 0)
-            maxLife = 0;
+        if(maxLife < 1)
+            maxLife = 1;
 
         if (life > maxLife)
             life = maxLife;
@@ -59,9 +57,9 @@ public class PlayerStats : Stats
 
     public  void LowerMaxLife(float pourcentage)
     {
-        maxLife -= (float)(maxLife * pourcentage);
-        if (maxLife < 0)
-            maxLife = 0;
+        maxLife -= maxLife * pourcentage;
+        if (maxLife < 1)
+            maxLife = 1;
 
         if (life > maxLife)
             life = maxLife;
@@ -69,7 +67,9 @@ public class PlayerStats : Stats
 
     public void AddMaxLifePourcentage (float pourcentage)
     {
-        maxLife += (float)(maxLife * pourcentage);
+        float amount = maxLife * pourcentage;
+        maxLife += amount;
+        Heal(amount);
     }
 
     public void AddStrength (float  amount)
@@ -79,21 +79,21 @@ public class PlayerStats : Stats
 
     public void AddStrengthPourcentage(float pourcentage)
     {
-        strength += (float)(strength * pourcentage);
+        strength += strength * pourcentage;
     }
 
     public void ReduceStrength (float amount)
     {
         strength -= amount;
-        if (strength < 0) 
-            strength = 0;
+        if (strength < 1) 
+            strength = 1;
     }
 
     public void ReduceStrengthPourcentage (float pourcentage)
     {
-        strength -= (float)(strength * pourcentage);
-        if (strength < 0)
-            strength = 0;
+        strength -= strength * pourcentage;
+        if (strength < 1)
+            strength = 1;
     }
 
     public void AddDefense (float amount)
@@ -103,7 +103,7 @@ public class PlayerStats : Stats
 
     public  void AddDefensePourcentage (float pourcentage)
     {
-        defense += (float)(defense * pourcentage);
+        defense += defense * pourcentage;
     }
 
     public void ReduceDefense(float amount)
@@ -115,7 +115,7 @@ public class PlayerStats : Stats
 
     public void ReduceDefensePourcentage(float pourcentage)
     {
-        defense -= (float)(defense * pourcentage);
+        defense -= defense * pourcentage;
         if (defense < 0)
             defense = 0;
     }
@@ -127,20 +127,20 @@ public class PlayerStats : Stats
 
     public void AddAgilityPourcentage (float pourcentage)
     {
-        agility += (float)(agility * pourcentage);
+        agility += agility * pourcentage;
     }
 
     public void ReduceAgility (float amount)
     {
         agility -= amount;
-        if (agility < 0)
-            agility = 0;
+        if (agility < 3)
+            agility = 3;
     }
 
     public void ReduceAgilityPourcentage(float pourcentage)
     {
-        agility -= (float)(agility * pourcentage);
-        if (agility < 0)
-            agility = 0;
+        agility -= agility * pourcentage;
+        if (agility < 3)
+            agility = 3;
     }
 }

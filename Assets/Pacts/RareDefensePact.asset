@@ -18,10 +18,10 @@ MonoBehaviour:
   buffs:
   - statType: 3
     affectType: 2
-    minValue: 50
-    maxValue: 80
+    minValue: 35
+    maxValue: 55
   debuffs:
-  - statType: 4
-    affectType: 2
-    minValue: 20
-    maxValue: 40
+  - statType: 1
+    affectType: 1
+    minValue: 10
+    maxValue: 25

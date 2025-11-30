@@ -69,15 +69,14 @@ public class FightingManager : MonoBehaviour
             if (!isAnimationGoing && endFight)
             {
                 isFightGoing = false;
-                GameManager.Instance.explorationManager.WalkTowardsNextDoor();
-                if (!enemyStats.IsAlive())
-                {
-                    Destroy(enemyScript.gameObject);
-                }
-                else
+                if (enemyStats.IsAlive())
                 {
                     GameManager.Instance.GameOver();
+                    return;
                 }
+                Destroy(enemyScript.gameObject);
+                GameManager.Instance.AddToScore(GameManager.Instance.explorationManager.lastRoomNumber * 10);
+                GameManager.Instance.explorationManager.WalkTowardsNextDoor();
             } 
 
             return;

@@ -17,11 +17,11 @@ MonoBehaviour:
   rng: 0.75
   buffs:
   - statType: 1
-    affectType: 1
+    affectType: 2
     minValue: 10
-    maxValue: 17
+    maxValue: 15
   debuffs:
-  - statType: 2
+  - statType: 4
     affectType: 1
-    minValue: 1
-    maxValue: 3
+    minValue: 2
+    maxValue: 4

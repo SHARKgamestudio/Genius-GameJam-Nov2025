@@ -59,7 +59,7 @@ public class EnemyStats : Stats
 
     float ScalingFunction(int floorNumber)
     {
-        return floorNumber + floorNumber * floorNumber * 0.1f;
+        return Mathf.Sqrt(floorNumber) * (floorNumber / 16f) + 1f;
     }
 
     public void ScaleStats(int floorNumber)
@@ -77,9 +77,9 @@ public class EnemyStats : Stats
         totalRandomizedValues += randDefenseFactor;
         int randAgilityFactor = weightedRandomRange(0, maxFactorValue, playerLuck + roomLuck, true);
         totalRandomizedValues += randAgilityFactor;
-        life *= (1 + (randLifeFactor - maxFactorValue/2) / 100.0f) * ScalingFunction(floorNumber);
-        strength *= (1 + (randStrengthFactor - maxFactorValue / 2) / 100.0f) * ScalingFunction(floorNumber);
-        defense *= (1 + (randDefenseFactor - maxFactorValue / 2) / 100.0f) * ScalingFunction(floorNumber);
-        agility *= (1 + (randAgilityFactor - maxFactorValue / 2) / 100.0f) * ScalingFunction(floorNumber);
+        life *= (1.0f + (randLifeFactor - maxFactorValue / 2f) / 100f) * ScalingFunction(floorNumber);
+        strength *= (1.0f + (randStrengthFactor - maxFactorValue / 2f) / 100f) * ScalingFunction(floorNumber);
+        defense *= (1.0f + (randDefenseFactor - maxFactorValue / 2f) / 100f) * ScalingFunction(floorNumber);
+        agility *= (1.0f + (randAgilityFactor - maxFactorValue / 2f) / 100f) * ScalingFunction(floorNumber);
     }
 }

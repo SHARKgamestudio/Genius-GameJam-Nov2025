@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Xml;
+using Unity.Android.Gradle.Manifest;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -155,13 +156,12 @@ public class PactGenerator : MonoBehaviour
             case "Double Down":
                 PlayerPactStack stack;
                 GameManager.Instance.playerManager.GetSystem<PlayerPactStack>(out stack);
-                List<PactData> pacts = stack.pactStack;
-                foreach (PactData data in pacts)
+                int pactAmount = stack.pactStack.Count;
+                for(int i = 0; i < pactAmount; i++)
                 {
-                    if (data.unique == true)
+                    if (stack.pactStack[i].unique == true)
                         continue;
-
-                    ApplyPact(data);
+                    ApplyPact(stack.pactStack[i]);
                 }
 
                 break;
@@ -182,19 +182,17 @@ public class PactGenerator : MonoBehaviour
                 float strengthPercent = thresholds[1] - thresholds[0];
                 float agilityPercent = thresholds[2] - thresholds[1];
                 float defensePercent = thresholds[3] - thresholds[2];
-                float luckPercent = thresholds[4] - thresholds[3];
-                stats.AddMaxLife(lifePercent * score * (1 / 2));
-                stats.AddStrength(strengthPercent * score * (1 / 10));
-                stats.AddAgility(agilityPercent * score * (1 / 10));
-                stats.AddDefense(defensePercent * score * (1 / 15));
-                stats.AddLuck(luckPercent * score * (1 / 1000));
+                float luckPercent = 1 - thresholds[3];
+                stats.AddMaxLife(lifePercent * score * (1f / 2f));
+                stats.AddStrength(strengthPercent * (float)score * (1f / 10f));
+                stats.AddAgility(agilityPercent * (float)score * (1f / 10f));
+                stats.AddDefense(defensePercent * (float)score * (1f / 15f));
+                stats.AddLuck(luckPercent * (float)score * (1f / 1000f));
 
                 break;
 
             case "Brambles":
-                PlayerStats playerStats;
-                GameManager.Instance.playerManager.GetSystem<PlayerStats>(out playerStats);
-                playerStats.hasThorns = true;
+                stats.hasThorns = true;
 
                 break;
         }

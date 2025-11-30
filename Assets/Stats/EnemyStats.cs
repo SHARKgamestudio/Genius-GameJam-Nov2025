@@ -77,9 +77,9 @@ public class EnemyStats : Stats
         totalRandomizedValues += randDefenseFactor;
         int randAgilityFactor = weightedRandomRange(0, maxFactorValue, playerLuck + roomLuck, true);
         totalRandomizedValues += randAgilityFactor;
-        life *= 1 + (randLifeFactor - maxFactorValue/2) / 100.0f * ScalingFunction(floorNumber);
-        strength *= 1 + (randStrengthFactor - maxFactorValue / 2) / 100.0f * ScalingFunction(floorNumber);
-        defense *= 1 + (randDefenseFactor - maxFactorValue / 2) / 100.0f * ScalingFunction(floorNumber);
-        agility *= 1 + (randAgilityFactor - maxFactorValue / 2) / 100.0f * ScalingFunction(floorNumber);
+        life *= (1 + (randLifeFactor - maxFactorValue/2) / 100.0f) * ScalingFunction(floorNumber);
+        strength *= (1 + (randStrengthFactor - maxFactorValue / 2) / 100.0f) * ScalingFunction(floorNumber);
+        defense *= (1 + (randDefenseFactor - maxFactorValue / 2) / 100.0f) * ScalingFunction(floorNumber);
+        agility *= (1 + (randAgilityFactor - maxFactorValue / 2) / 100.0f) * ScalingFunction(floorNumber);
     }
 }

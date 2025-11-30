@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Rare Reroll Stats Pact
   description: Good Luck !
-  rng: 1
+  rng: 0.25
   buffs:
   - statType: 7
     affectType: 0

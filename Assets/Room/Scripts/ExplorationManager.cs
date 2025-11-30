@@ -25,6 +25,14 @@ public sealed class ExplorationManager : MonoBehaviour
     [SerializeField] float luckyModifier;
     [SerializeField] float unluckyModifier;
 
+    [SerializeField] Sprite spritePactRoom3;
+    [SerializeField] Sprite spritePactRoom2;
+    [SerializeField] Sprite spritePactRoom1;
+
+    [SerializeField] Sprite spriteCombatRoom3;
+    [SerializeField] Sprite spriteCombatRoom2;
+    [SerializeField] Sprite spriteCombatRoom1;
+
     public GameObject GetRoom()
     {
         return currentRoom;
@@ -96,11 +104,27 @@ public sealed class ExplorationManager : MonoBehaviour
                 case RoomType.COMBAT:
                     room = Instantiate(combatPrefab);
                     room.GetComponent<CombatRoom>().roomNumber = lastRoomNumber;
+                    if (lastRoomNumber == 1)
+                    {
+                        this.GetComponent<CombatRoom>().GetComponent<SpriteRenderer>().sprite = spriteCombatRoom2;
+                    }
+                    else if (lastRoomNumber == 2)
+                    {
+                        this.GetComponent<CombatRoom>().GetComponent<SpriteRenderer>().sprite = spriteCombatRoom3;
+                    }
                     break;
 
                 case RoomType.PACT:
                     room = Instantiate(pactPrefab);
                     room.GetComponent<PactRoom>().roomNumber = lastRoomNumber;
+                    if (lastRoomNumber == 1)
+                    {
+                        this.GetComponent<PactRoom>().GetComponent<SpriteRenderer>().sprite = spritePactRoom2;
+                    }
+                    else if (lastRoomNumber == 2)
+                    {
+                        this.GetComponent<PactRoom>().GetComponent<SpriteRenderer>().sprite = spritePactRoom3;
+                    }
                     break;
                 
                 default:
@@ -163,15 +187,6 @@ public sealed class ExplorationManager : MonoBehaviour
         };
 
         // Switch game state to selection
-    }
-
-    public void ChangeRoom()
-    {
-        ExitRoom();
-        GenerateRoom();
-
-        // Switch game state to selection
-
     }
 
     public void ChooseFirstRoom()

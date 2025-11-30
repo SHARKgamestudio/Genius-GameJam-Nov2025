@@ -26,6 +26,6 @@ MonoBehaviour:
     minValue: 3
     maxValue: 5
   - statType: 5
-    affectType: 1
-    minValue: 0.06
-    maxValue: 0.12
+    affectType: 2
+    minValue: 6
+    maxValue: 12

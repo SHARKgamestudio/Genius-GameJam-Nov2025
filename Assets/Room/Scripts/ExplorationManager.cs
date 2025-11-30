@@ -152,6 +152,7 @@ public sealed class ExplorationManager : MonoBehaviour
 
     public void RoomFade()
     {
+        crossfade.gameObject.SetActive(true);
         crossfade.In();
         
         crossfade.OnInEnd += () =>
@@ -185,6 +186,15 @@ public sealed class ExplorationManager : MonoBehaviour
     public void NextRoom(bool _left)
     {
         crossfade.Out();
+        GameManager.Instance.playerManager.GetSystem<PlayerStats>(out PlayerStats stats);
+        float percent = stats.maxLife * 0.2f;
+        stats.Heal(percent);
+
+        crossfade.OnOutEnd += () =>
+        {
+            crossfade.gameObject.SetActive(false);
+            crossfade.OnOutEnd = null;
+        };
 
         if(_left)
         {
@@ -235,13 +245,4 @@ public sealed class ExplorationManager : MonoBehaviour
 
         EnterRoom();
     }
-
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.D))
-        {
-            WalkTowardsNextDoor();
-        }
-    }
-
 }

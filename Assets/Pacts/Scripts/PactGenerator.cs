@@ -4,12 +4,16 @@ public class PactGenerator : MonoBehaviour
 {
     [SerializeField] Pact[] pacts;
     [SerializeField] PactUI pactUI;
+    [SerializeField] AlphaTweening uiRoot;
 
     PlayerMover mover;
 
     [ContextMenu("Test GeneratePacts")]
     public void ChoosePact()
     {
+        uiRoot.gameObject.SetActive(true);
+        uiRoot.In();
+
         PactData[] generated = GeneratePacts();
         pactUI.GenerateCards(generated, (PactData pact) =>
         {
@@ -119,17 +123,24 @@ public class PactGenerator : MonoBehaviour
                     case PlaceholderStatType.Luck:
                         if (effect.effectType == PlaceholderEffectType.Buff)
                         {
-                            stats.AddLuck(effect.value);
+                            stats.AddLuck(effect.value / 100);
                         }
                         else
                         {
-                            stats.ReduceLuck(effect.value);
+                            stats.ReduceLuck(effect.value / 100);
                         }
                         break;
                     case PlaceholderStatType.None:
                         break;
                 }
             }
+
+            uiRoot.Out();
+            uiRoot.OnOutEnd += () =>
+            {
+                uiRoot.gameObject.SetActive(false);
+                uiRoot.OnOutEnd = null;
+            };
         });
     }
 

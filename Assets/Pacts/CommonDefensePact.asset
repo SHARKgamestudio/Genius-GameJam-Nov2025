@@ -22,9 +22,9 @@ MonoBehaviour:
     maxValue: 5
   debuffs:
   - statType: 5
-    affectType: 1
-    minValue: 0.05
-    maxValue: 0.1
+    affectType: 2
+    minValue: 5
+    maxValue: 10
   - statType: 2
     affectType: 1
     minValue: 1

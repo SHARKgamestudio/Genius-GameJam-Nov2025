@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,6 @@ public class EffectItem : MonoBehaviour
     {
         effectTitleText.text = effect.affectedStat.ToString();
         effectTypeText.text = type == PlaceholderEffectType.Buff ? "+" : "-";
-        effectValueText.text = effect.value.ToString() + (effect.affectType == PlaceholderStatAffectType.Percent ? "%" : "");
+        effectValueText.text = Mathf.RoundToInt(effect.value).ToString() + (effect.affectType == PlaceholderStatAffectType.Percent ? "%" : "");
     }
 }

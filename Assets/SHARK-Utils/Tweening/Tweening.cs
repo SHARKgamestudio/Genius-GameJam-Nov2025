@@ -8,8 +8,8 @@ public abstract class Tweening : MonoBehaviour
     [Header("Setup")]
     [SerializeField] protected AnimationCurve inCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     [SerializeField] protected AnimationCurve outCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
-    [SerializeField, Range(0, 2)] protected float intensity = 1;
-    [SerializeField, Range(0, 10)] protected float speed = 4;
+    [SerializeField, SliderOnly(0, 2)] protected float intensity = 1;
+    [SerializeField, SliderOnly(0, 10)] protected float speed = 4;
 
     // Events
     public Action OnInBegin;

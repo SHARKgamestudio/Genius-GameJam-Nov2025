@@ -15,7 +15,7 @@ public class FightingEnemy : FightingScript
     protected override void AddReceiveDamageAnimationToQueue()
     {
         GameObject currentRoom = GameManager.Instance.explorationManager.GetRoom();
-        SpriteRenderer selfSprite = (currentRoom.GetComponent<Room>() as CombatRoom).GetEnemy().GetComponent<SpriteRenderer>();
+        SpriteRenderer selfSprite = (currentRoom.GetComponent<Room>() as CombatRoom).GetEnemy().GetComponentInChildren<SpriteRenderer>();
         Color currentColor = selfSprite.color;
         queue.EnqueueAnimation(new AnimationItem(() => ChangeColor(selfSprite, Color.darkRed, receiveDamageTime * 0.8f)));
         queue.EnqueueAnimation(new AnimationItem(() => ChangeColor(selfSprite, currentColor, receiveDamageTime * 0.2f)));
@@ -23,7 +23,7 @@ public class FightingEnemy : FightingScript
     protected override void AddDieAnimationToQueue()
     {
         GameObject currentRoom = GameManager.Instance.explorationManager.GetRoom();
-        SpriteRenderer selfSprite = (currentRoom.GetComponent<Room>() as CombatRoom).GetEnemy().GetComponent<SpriteRenderer>();
+        SpriteRenderer selfSprite = (currentRoom.GetComponent<Room>() as CombatRoom).GetEnemy().GetComponentInChildren<SpriteRenderer>();
         queue.EnqueueAnimation(new AnimationItem(() => BlinkSprite(selfSprite, dieTime, dieTime * 0.05f)));
     }
 }

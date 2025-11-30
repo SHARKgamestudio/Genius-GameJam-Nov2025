@@ -13,8 +13,8 @@ public class Stats : MonoBehaviour
 
     virtual public void TakeDamage(float amount)
     {
-        if (amount < 0)
-            return;
+        if (amount < 1)
+            amount = 1;
 
         life -= amount;
         if (life < 0)

@@ -18,8 +18,8 @@ MonoBehaviour:
   buffs:
   - statType: 3
     affectType: 1
-    minValue: 3
-    maxValue: 5
+    minValue: 2
+    maxValue: 4
   debuffs:
   - statType: 5
     affectType: 1

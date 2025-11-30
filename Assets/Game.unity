@@ -1501,7 +1501,7 @@ MonoBehaviour:
   life: 60
   strength: 10
   defense: 4
-  agility: 5
+  agility: 7
   luck: 0.5
   maxLife: 60
 --- !u!4 &1235925380

@@ -149,6 +149,48 @@ public class PactGenerator : MonoBehaviour
                                 stats.Heal(effect.value);
                         }
                         break;
+                    case PlaceholderStatType.Custom:
+                        switch (effect.type.customDesc)
+                        {
+                            case "Reroll All Stats (Exept Luck)":
+                                float sums = stats.GetSumsOfStats();
+                                sums *= effect.value;
+
+                                float w1 = Random.Range(1.0f,2.0f);
+                                float w2 = Random.Range(1.0f, 2.0f);
+                                float w3 = Random.Range(1.0f, 2.0f);
+                                float w4 = Random.Range(1.0f, 2.0f);
+
+                                float sum = w1 + w2 + w3 + w4;
+
+                                float maxLife = sums * (w1 / sum);
+                                float strength = sums * (w2 / sum);
+                                float agility = sums * (w3 / sum);
+                                float defence = sums * (w4 / sum);
+
+                                if (stats.defense > defence)
+                                    stats.ReduceDefense(stats.defense - defence);
+                                else 
+                                    stats.AddDefense(defence -  stats.defense);
+
+                                if (stats.maxLife > maxLife)
+                                    stats.ReduceMaxLife(stats.maxLife - maxLife);
+                                else
+                                    stats.AddMaxLife(maxLife - stats.maxLife);
+
+                                if (stats.strength > strength)
+                                    stats.ReduceStrength(stats.strength - strength);
+                                else
+                                    stats.AddStrength(defence - stats.defense);
+
+                                if (stats.agility > agility)
+                                    stats.ReduceAgility(stats.agility - agility);
+                                else
+                                    stats.AddAgility(agility - stats.agility);
+
+                                break;
+                        }
+                        break;
                     case PlaceholderStatType.None:
                         break;
                 }

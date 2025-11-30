@@ -143,4 +143,12 @@ public class PlayerStats : Stats
         if (agility < 3)
             agility = 3;
     }
+
+    public float GetSumsOfStats(bool ignoreLuck = true)
+    {
+        float sum = strength + agility + defense + maxLife;
+        if (ignoreLuck)
+            return sum;
+        return sum + luck;
+    }
 }

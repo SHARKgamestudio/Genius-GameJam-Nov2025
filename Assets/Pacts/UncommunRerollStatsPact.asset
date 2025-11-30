@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0fb8eb6df63e0b47bcefc89413be082, type: 3}
   m_Name: UncommunRerollStatsPact
   m_EditorClassIdentifier: 
-  name: NewPact
-  description: Some Description
-  rng: 0.25
-  buffs: []
+  name: Uncommun Reroll Stats Pact
+  description: Good Luck !
+  rng: 0.5
+  buffs:
+  - statType: 7
+    affectType: 0
+    customDesc: Reroll All Stats (Exept Luck)
+    minValue: 0.7
+    maxValue: 1.1
   debuffs: []

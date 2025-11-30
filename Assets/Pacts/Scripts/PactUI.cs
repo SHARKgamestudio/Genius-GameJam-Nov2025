@@ -40,6 +40,7 @@ public class PactUI : MonoBehaviour
     public void ActiveButton(System.Action<PactData> onSelected)
     {
         //Active Button
+        rerollButton.gameObject.SetActive(true);
         rerollButton.onClick.RemoveAllListeners();
         rerollButton.onClick.AddListener(() =>
             {
